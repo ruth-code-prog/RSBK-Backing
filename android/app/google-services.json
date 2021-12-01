@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "280779452296",
+    "firebase_url": "https://bayukarta-c3fb0-default-rtdb.firebaseio.com",
+    "project_id": "bayukarta-c3fb0",
+    "storage_bucket": "bayukarta-c3fb0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280779452296:android:692ec29d91dcf74246d43d",
+        "android_client_info": {
+          "package_name": "com.bayukarta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "280779452296-fkvm6r5uka4ecbppsjekf4d3sictunei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2a4hEb0OdM5DfGQn0kotCAaHlgrOjQxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "280779452296-fkvm6r5uka4ecbppsjekf4d3sictunei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
