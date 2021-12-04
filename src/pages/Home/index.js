@@ -1,5 +1,5 @@
 import React, {Component,  useEffect, useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, Image} from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity} from 'react-native'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPlus, faUser} from '@fortawesome/free-solid-svg-icons';
 import FIREBASE from '../../config/FIREBASE';
@@ -10,7 +10,8 @@ import Notif from '../Notif';
 import Developer from '../Developer';
 import Splash from '../Splash'
 import {PopupPoint} from '../../components';
-import Jadwal from '../Jadwal'
+import Jadwal from '../Jadwal';
+import Map from '../Map'
 
   const Home = ({ navigation }) => {
     const [pointPopup, setPointPopup] = useState(false);
@@ -34,6 +35,7 @@ import Jadwal from '../Jadwal'
       <Text style={styles.subtitle}>Headline Info</Text>
       <Headline />
       <Jadwal />
+      <Map />
       <Notif />
       <Developer />
     </ScrollView>
@@ -67,6 +69,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     color: '#FBFCFC',
+    paddingLeft: 10,
   },
   listPasien: {
     paddingHorizontal: 30,

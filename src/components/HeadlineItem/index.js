@@ -1,15 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import { Dimensions, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 
-export default function HeadlineItem({headline, onPress, title, subtitle, page, image}) {
+export default function HeadlineItem({onPress, image}) {
    
     return (
     <View style={styles.container} onPress={onPress}>
         <Image source={{uri: image}} style={styles.image} />
-        <Text style={styles.headline}>{headline}</Text>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.subtitle}>{subtitle}</Text>
-        <Text style={styles.page}>{page}</Text>
     </View>
     )
 }
@@ -17,15 +13,13 @@ export default function HeadlineItem({headline, onPress, title, subtitle, page, 
 const styles = StyleSheet.create({
     container: {
       marginTop: 20,
-        marginRight: 10,
+        marginRight: 12,
         flexDirection: 'row',
-        padding: 15,
         backgroundColor: 'white',
-        borderRadius: 5,
+        borderRadius: 10,
         marginBottom: 20,
         shadowColor: '#000',
-        height: 180,
-        width: 270,
+        height: Dimensions.get('screen').height / 5,
         shadowOffset: {
           width: 0,
           height: 2,
@@ -35,38 +29,8 @@ const styles = StyleSheet.create({
     
         elevation: 5,
       },
-      illustration: {
-        marginBottom: 28,
-      },
-      headline: {
-        fontSize: 12,
-        color: '#000000',
-        marginLeft: 6,
-      },
-      label: {
-        fontSize: 12,
-        color: '#000000'
-      },
-      title: {
-        fontSize: 12,
-        color: '#000000',
-        marginTop: 100,
-        position: 'absolute',
-        marginLeft: 20,
-      },
-      subtitle: {
-        fontSize: 12,
-        color: '#000000',
-        marginTop: 120,
-        marginLeft: 20,
-        position: 'absolute'
-      }, 
-      page: {
-        fontSize: 12,
-        color: '#000000',
-        marginTop: 140,
-        marginLeft: 20,
-        position: 'absolute'
-      }, 
-      image: {width: 80, height: 80, borderRadius: 50},
+      image: {
+        width: Dimensions.get('screen').width - 120,
+        height: Dimensions.get('screen').height / 5, 
+        borderRadius: 10, },
 })

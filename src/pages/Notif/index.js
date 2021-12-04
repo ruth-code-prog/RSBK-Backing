@@ -35,12 +35,6 @@ export default class App extends Component {
           Lokal Notifikasi
         </Text>
         <View style={styles.spacer}></View>
-        <TextInput
-          style={styles.textField}
-          value={this.state.registerToken}
-          placeholder="Register token"
-        />
-        <View style={styles.spacer}></View>
 
         <TouchableOpacity
           style={styles.button}
@@ -79,6 +73,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
     borderRadius: 10,
+    marginTop: 10,
   },
   welcome: {
     fontSize: 20,

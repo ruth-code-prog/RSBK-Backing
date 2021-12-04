@@ -37,29 +37,29 @@ const Jadwal = props => {
 
       return (
         <View style={styles.page}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-              <View>
-                <Text
-                  style={{
-                    marginTop: 30,
-                    marginBottom: 10,
-                    fontWeight: 'bold',
-                    color: '#000000',
-                    marginHorizontal: 2,
-                  }}>
+              <View  style={styles.colom}>
+               <Text
+                  style={styles.row}>
                   CARI JADWAL PRAKTEK DOKTER
                 </Text>
-    
+                <View style={styles.imageDok}>
+                 <Image
+                  source={require("../../assets/dokterChat.png")}
+                  style={styles.rowCenter}
+                />
+                </View>
+              </View>
+
                 <View style={styles.cariObat}>
                   <TextInput
                     onChangeText={val => handleJadwalsFilter(val, jadwals)}
                     selectTextOnFocus
                     style={styles.searchInput}
-                    placeholder="MASUKAN NAMA DOKTER/ KLINIK YANG DI TUJU"
-                    placeholderTextColor="#000" 
+                    placeholder="MASUKAN NAMA DOKTER/ KLINIK"
+                    placeholderTextColor="#00A2E9" 
                   />
                 </View>
-              </View>
+
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -67,7 +67,7 @@ const Jadwal = props => {
                 {searchJadwalLoading ? (
                   <ActivityIndicator
                     size={40}
-                    color="#FFFFFF"
+                    color="#00A2E9"
                     style={{marginVertical: 40, marginLeft: 40}}
                   />
                 ) : (
@@ -83,7 +83,6 @@ const Jadwal = props => {
                   ))
                 )}
               </ScrollView>
-              </ScrollView>
         </View>
        );
       };
@@ -92,15 +91,43 @@ const Jadwal = props => {
     const styles = StyleSheet.create({
       page: {
         flex: 1,
-        backgroundColor: '#00FFFF',
+        backgroundColor: '#F8C471',
+        borderRadius: 10,
+        paddingLeft: 10,
+        paddingTop: 12,
+      },
+      colom: {
+        alignItems: "stretch",
+        paddingLeft: 40,
       },
       cariObat: {
         backgroundColor: '#FFFFFF',
         borderRadius: 25,
+        paddingLeft: 40,
+        paddingRight: 10,
+        width: '96%',
       },
       searchInput: {
-        color: "#000000",
+        color: "#00A2E9",
         fontWeight: 'bold',
+      },
+      row: {
+      marginTop: 30,
+      marginBottom: 10,
+      fontWeight: 'bold',
+      color: '#000000',
+      marginHorizontal: 2,
+      },
+
+      rowCenter: {
+      height: 40,
+      width: 40,
+      marginTop: -40,
+      marginBottom: 10,
+      marginLeft:200,
+      },
+      imageDok: {
+        alignItems: "center"
       }
     });
     

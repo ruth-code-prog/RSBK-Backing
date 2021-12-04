@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Dimensions, Text, StyleSheet, View } from "react-native";
 //import { Banner, Banner2 } from "../../../assets";
 import { SliderBox } from "react-native-image-slider-box";
 //import { responsiveHeight, responsiveWidth, colors } from "../../../utils";
@@ -36,8 +36,9 @@ const styles = StyleSheet.create({
   },
   slider: {
     borderRadius: 10,
+    height: Dimensions.get('screen').height / 4,
+    width: Dimensions.get('screen').width - 10,
     //width: responsiveWidth(420),
-    marginRight: 10,
   },
   dotStyle: {
     width: 10,

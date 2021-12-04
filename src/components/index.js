@@ -7,4 +7,5 @@ import BannerSlider from './BannerSlider'
 import VideoPlayer from './VideoPlayer'
 import PopupPoint from './PopupPoint'
 import JadwalCard from './JadwalCard'
+
 export { InputData, NewsItem, BottomTabNavigator, TabItem, HeadlineItem, BannerSlider, VideoPlayer, PopupPoint, JadwalCard}

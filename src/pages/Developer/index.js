@@ -7,9 +7,9 @@ const App = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => Linking.openURL('https://wa.me/+62895600394345')}>
+        onPress={() => Linking.openURL('https://wa.me/+628111199968')}>
           <Image
-                  source={require("../../assets/Chat.png")}
+                  source={require("../../assets/IC.png")}
                   style={styles.chat}
                   resizeMode={"contain"}
                 />
@@ -19,13 +19,10 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {justifyContent: 'center', marginTop: 12, marginBottom: 12},
+  container: {alignItems: 'center', marginTop: 12, marginBottom: 12},
   chat: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    width: 120,
-    height: 68,
+    width: 160,
+    height: 88,
     resizeMode: "contain",
     marginBottom: 100,
   },

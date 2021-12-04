@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Dimensions,
   Image,
   StyleSheet,
   Text,
@@ -23,8 +24,8 @@ const JadwalCard = ({
     <View
       style={[
         {
-          width: 310,
-          height: 520,
+          height: Dimensions.get('screen').height / 1.5,
+          width: Dimensions.get('screen').width - 40,
           borderRadius: 10,
           marginRight: 10,
           marginBottom: 24,
@@ -39,7 +40,7 @@ const JadwalCard = ({
           uri: item?.image || "",
         }}
         style={{
-          width: 310,
+          width: Dimensions.get('screen').width - 40,
           height: 320,
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,

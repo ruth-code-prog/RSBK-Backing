@@ -1,8 +1,22 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 import FIREBASE from '../../config/FIREBASE';
+import PushNotification from 'react-native-push-notification';
+import NotifService from '../../../NotifService';
 
 const Splash = ({navigation}) => {
+  const [pushNotification, setPushNotification] = useState(false);
+
+  useEffect(() => {
+    getPushNotification();
+  }, []);
+
+  const getPushNotification = () => {
+    if (!pushNotification) {
+      setPushNotification(true);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = FIREBASE.auth().onAuthStateChanged(user => {
       setTimeout(() => {
@@ -10,32 +24,19 @@ const Splash = ({navigation}) => {
           navigation.replace('MainApp');
         }
       }, 3000);
+      PushNotification.localNotification({
+        channelId: "bayukartamobile",
+        message: " Health_tech (RS Bayukarta Mobile Apps)", // (required)
+        date: new Date(Date.now() + (1 * 1000)) // in 60 secs
+      })
     });
 
     return () => unsubscribe();
   }, [navigation]);
 
   return (
-    <View style={styles.page}>
-      <Image
-        source={require('../../assets/logo.png')}
-        style={{width: 150, height: 150}}
-        resizeMode={'contain'}
-      />
-      <Text style={styles.title}>RS BAYUKARTA</Text>
-      <Text style={styles.line}>Sakit itu gak Ribet, ke Bayukarta aja</Text>
-      <Image
-        source={require('../../assets/Akreditasi.png')}
-        style={{
-          width: 150,
-          height: 150,
-          position: 'absolute',
-          bottom: 0,
-          right: 0,
-        }}
-        resizeMode={'contain'}
-      />
-    </View>
+    <ImageBackground source={require('../../assets/ILopening.jpeg')} style={styles.page}>
+    </ImageBackground>
   );
 };
 
@@ -43,10 +44,10 @@ export default Splash;
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: '#FFFFFF',
+    padding: 40,
+    justifyContent: 'space-between',
+    backgroundColor: "#FFFFFF",
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   title: {
     fontSize: 20,

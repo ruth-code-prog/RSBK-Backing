@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     color: '#FBFCFC',
+    paddingLeft: 10,
   },
   KalkulatorDosisObat: {
     marginTop: 40,

@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     color: '#FBFCFC',
   },
   news: {
+    paddingLeft: 10,
     marginTop: 8,
     fontSize: 16,
     fontWeight: 'bold',
