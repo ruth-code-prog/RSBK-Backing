@@ -1,7 +1,7 @@
 import React, {Component, useCallback, useEffect, useState} from 'react';
 import { StyleSheet, Text, View, Image, Linking, ScrollView, TouchableOpacity,  TextInput, ActivityIndicator} from 'react-native'
 import FIREBASE from '../../config/FIREBASE';
-import JadwalCard from '../../components/JadwalCard';
+import {JadwalCard} from '../../components';
 
 const Jadwal = props => {
     const [jadwals, setJadwals] = useState([]);

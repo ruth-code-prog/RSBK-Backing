@@ -11,7 +11,7 @@ import {
   Button
 } from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
-import FIREBASE from '../../config/FIREBASE';
+import FIREBASE from '../../../config/FIREBASE';
 
 const VideoPlayer = ({ link, visible, onClose }) => {
   const scrollRef = useRef(null);

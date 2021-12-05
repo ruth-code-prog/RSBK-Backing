@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import FIREBASE from '../../config/FIREBASE';
+import FIREBASE from '../../../config/FIREBASE';
 
 const PopupPoint = ({visible, onClose}) => {
   const [imageUri, setImageUri] = useState('');

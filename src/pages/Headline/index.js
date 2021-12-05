@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity,  Linking, ScrollView} from 'react-native'
 import FIREBASE from '../../config/FIREBASE';
-import HeadlineItem from '../../components/HeadlineItem';
+import {HeadlineItem} from '../../components';
 
 const Headline = () => {
     const [headline, setHeadline] = useState ([]);
@@ -34,9 +34,6 @@ const Headline = () => {
                     <HeadlineItem
                     key={`headline-${item.id}`}
                     headline={item.headline}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                    page={item.page}
                     image={item.image}
                 />
                 </TouchableOpacity>

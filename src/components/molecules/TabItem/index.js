@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import { WARNA_SEKUNDER, WARNA_UTAMA } from '../../utils/constants';
-import { IconHome, IconHomeActive, IconInformasi, IconInformasiActive, IconNotif, IconNotifActive} from './../../assets'
+import { WARNA_SEKUNDER, WARNA_UTAMA } from '../../../utils/colors';
+import { IconHome, IconHomeActive, IconInformasi, IconInformasiActive, IconNotif, IconNotifActive} from './../../../assets'
 
 const TabItem = ({label, isFocused, onLongPress, onPress}) => {
 

@@ -12,6 +12,7 @@ import Splash from '../Splash'
 import {PopupPoint} from '../../components';
 import Jadwal from '../Jadwal';
 import Map from '../Map'
+import Voucher from '../Voucher'
 
   const Home = ({ navigation }) => {
     const [pointPopup, setPointPopup] = useState(false);
@@ -35,6 +36,7 @@ import Map from '../Map'
       <Text style={styles.subtitle}>Headline Info</Text>
       <Headline />
       <Jadwal />
+      <Voucher />
       <Map />
       <Notif />
       <Developer />

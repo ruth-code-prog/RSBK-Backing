@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Home, Informasi, Obat, Splash} from '../pages';
+import {Home, Informasi, Obat, Splash, Register} from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigator} from '../components';
 
@@ -31,6 +31,11 @@ const Router = () => {
         name="MainApp"
         component={MainApp}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{headerShown: true}}
       />
     </Stack.Navigator>
   );
