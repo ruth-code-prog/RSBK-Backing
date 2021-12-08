@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     text: {
-        color: WARNA_UTAMA,
+        color: "#FFFFFF",
      
         marginLeft: 8,
     }
