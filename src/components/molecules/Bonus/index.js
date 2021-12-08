@@ -1,36 +1,30 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Dimensions,
-  Image,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import FIREBASE from '../../../config/FIREBASE';
+import React from 'react';
+import {Dimensions, Image, Linking, StyleSheet, TouchableOpacity} from 'react-native';
 
-const Bonus = ({}) => {
-  const [imageUri, setImageUri] = useState('');
+const Bonus = ({url, link}) => {
+  // const [imageUri, setImageUri] = useState('');
 
-  useEffect(() => {
-    getImage();
-  }, []);
+  // useEffect(() => {
+  //   getImage();
+  // }, []);
 
-  const getImage = () => {
-    FIREBASE.database()
-      .ref('bonus')
-      .once('value', snapshot => {
-        setImageUri(snapshot.val());
-      });
-  };
+  // const getImage = () => {
+  //   FIREBASE.database()
+  //     .ref('bonus')
+  //     .once('value', snapshot => {
+  //       setImageUri(snapshot.val());
+  //     });
+  // };
 
   return (
-      <View style={styles.container}>
-        <View style={{alignItems: 'flex-start'}}>
-          <Image style={styles.image} source={{uri: imageUri}} />
-        </View>
-      </View>
+    <TouchableOpacity
+      onPress={() => {
+        Linking.openURL(`${link}`);
+        console.log(link);
+      }}
+      style={styles.container}>
+      <Image style={styles.image} source={{uri: url}} />
+    </TouchableOpacity>
   );
 };
 
@@ -39,10 +33,11 @@ export default Bonus;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginBottom: 12,
   },
   image: {
-    height: Dimensions.get('screen').height / 5,
-    width: Dimensions.get('screen').width - 140,
+    height: '100%',
+    width: '100%',
     borderRadius: 20,
   },
 });

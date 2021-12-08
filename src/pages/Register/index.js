@@ -30,7 +30,7 @@ const Register = ({navigation}) => {
           .set(data);
 
         storeData('user', data);
-        navigation.navigate('MainApp', data);
+        navigation.replace('Sukses', data);
       })
       .catch(err => {
         showError(err.message);
@@ -76,7 +76,14 @@ const Register = ({navigation}) => {
             secureTextEntry
           />
           <Gap height={16} />
-          <Button title="Mangga teraskeun" textColor="white" onPress={onContinue} />
+          <Button title="(REGISTER)" textColor="white" onPress={onContinue} />
+
+          <Gap height={30} />
+        <Button
+          type="secondary"
+          title="Sudah punya Akun (LOGIN)"
+          onPress={() => navigation.replace('Login')}
+        />
         </ScrollView>
       </View>
     </View>

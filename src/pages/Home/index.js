@@ -1,5 +1,5 @@
-import React, {Component,  useEffect, useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity} from 'react-native'
+import React, {Component, useEffect, useState} from 'react';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPlus, faUser} from '@fortawesome/free-solid-svg-icons';
 import FIREBASE from '../../config/FIREBASE';
@@ -8,47 +8,55 @@ import Carousel from '../Carousel';
 import RunningText from '../RunningText';
 import Notif from '../Notif';
 import Developer from '../Developer';
-import Splash from '../Splash'
+import Splash from '../Splash';
 import {PopupPoint} from '../../components';
 import Jadwal from '../Jadwal';
-import Map from '../Map'
-import Voucher from '../Voucher'
+import Map from '../Map';
+import Voucher from '../Voucher';
+import { ScrollView } from 'react-native-gesture-handler';
 
-  const Home = ({ navigation }) => {
-    const [pointPopup, setPointPopup] = useState(false);
+const Home = ({navigation}) => {
+  const [pointPopup, setPointPopup] = useState(false);
+  const [banner, setBanner] = useState([]);
 
-    useEffect(() => {
-      getImage();
-    }, []);
+  useEffect(() => {
+    // getImage();
+    getBanner();
+  }, []);
 
-    const getImage = () => {
-          if (!pointPopup) {
-            setPointPopup(true);
-          }
-        };
+  const getImage = () => {
+    if (!pointPopup) {
+      setPointPopup(true);
+    }
+  };
+
+  const getBanner = () => {
+    FIREBASE.database()
+      .ref('banner')
+      .once('value', snapshot => {
+        setBanner(snapshot.val());
+      });
+  };
 
   return (
     <View style={styles.page}>
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <RunningText />
-      <Carousel />
-    
-      <Text style={styles.subtitle}>Headline Info</Text>
-      <Headline />
-      <Jadwal />
-      <Voucher />
-      <Map />
-      <Notif />
-      <Developer />
-    </ScrollView>
-    <PopupPoint
-        visible={pointPopup}
-        onClose={() => setPointPopup(false)}
-      />
-</View>
-  )
-  }
-export default (Home);
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <RunningText />
+        <Carousel />
+
+        <Text style={styles.subtitle}>Headline Info</Text>
+        <Headline />
+        <Jadwal />
+        <Voucher data={banner} />
+        <Map />
+        <Notif />
+        <Developer />
+      </ScrollView>
+      <PopupPoint visible={pointPopup} onClose={() => setPointPopup(false)} />
+    </View>
+  );
+};
+export default Home;
 
 const styles = StyleSheet.create({
   page: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Home, Informasi, Obat, Splash, Register} from '../pages';
+import {Home, Informasi, Obat, Splash, Register, Sukses, Login, ForgotPass} from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigator} from '../components';
 
@@ -36,6 +36,21 @@ const Router = () => {
         name="Register"
         component={Register}
         options={{headerShown: true}}
+      />
+      <Stack.Screen
+        name="Sukses"
+        component={Sukses}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ForgotPass"
+        component={ForgotPass}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

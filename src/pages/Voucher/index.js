@@ -1,4 +1,4 @@
-import React, {Component,  useEffect, useState, useCallback } from 'react'
+import React, {Component, useEffect, useState, useCallback} from 'react';
 import {
   Dimensions,
   Alert,
@@ -13,14 +13,39 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Bonus} from '../../components';
+import Swiper from 'react-native-swiper';
 
-const Voucher = () => {
+const Voucher = ({data}) => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
-        <Bonus />
+      <View style={{marginLeft: 4}} />
 
+      <Swiper
+        style={styles.wrapper}
+        horizontal={false}
+        autoplay
+        showsVerticalScrollIndicator
+        loop
+        dotStyle={{
+          height: 12,
+          width: 3,
+          backgroundColor: 'white',
+        }}
+        activeDotStyle={{
+          height: 12,
+          width: 3,
+          backgroundColor: 'royalblue',
+        }}
+        paginationStyle={{
+          left: -Dimensions.get('screen').width / 2 - 14,
+        }}>
+        {data.map(val => (
+          <Bonus key={val?.id} url={val?.image} link={val?.link} />
+        ))}
+      </Swiper>
+      <View style={{marginLeft: 20}} />
       <View style={styles.rowCenter}>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
           <Image
@@ -28,8 +53,8 @@ const Voucher = () => {
             style={styles.user}
             resizeMode={'contain'}
           />
-          <Text style={styles.member}>Daftar Member</Text>
-          <Text style={styles.member}> RS.Bayukarta</Text>
+          <Text style={styles.member}>Daftar/Login</Text>
+          <Text style={styles.member}> User</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -38,8 +63,8 @@ const Voucher = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: Dimensions.get('screen').height / 4,
-    width: Dimensions.get('screen').width - 2,
+    // height: Dimensions.get('screen').height / 4,
+    // width: Dimensions.get('screen').width - 2,
     marginTop: 20,
     padding: 10,
     backgroundColor: '#F8C471',
@@ -54,29 +79,37 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 200,
+  },
+  wrapper: {
+    // flex: 1,
+    paddingTop: 4,
   },
   background: {},
   user: {
-    height: Dimensions.get('screen').height / 8,
-    width: Dimensions.get('screen').width - 40,
+    height: 120,
+    width: 120,
+    // width: Dimensions.get('screen').width - 40,
     borderRadius: 20,
     marginBottom: 20,
-    paddingLeft: 200,
+    // paddingLeft: 200,
   },
   rowCenter: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingLeft: 130,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   member: {
     color: '#000000',
     fontWeight: 'bold',
-    alignItems: 'center',
-    paddingLeft: 110,
+    textAlign: 'center',
   },
   wrapperSection: {
-    paddingHorizontal: 16
-},
+    paddingHorizontal: 16,
+  },
 });
 
 export default Voucher;
