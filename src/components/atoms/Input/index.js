@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
     borderColor: border,
     borderRadius: 10,
     padding: 12,
+    color: "#FFFFFF",
   }),
   label: {
     fontSize: 16,
-    color: colors.text.white,
+    color:"#FFFFFF",
     marginBottom: 6,
-    fontFamily: fonts.primary[400],
   },
 });

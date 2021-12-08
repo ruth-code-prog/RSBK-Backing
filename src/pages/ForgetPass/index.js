@@ -52,8 +52,7 @@ const styles = StyleSheet.create({
   page: {paddingHorizontal: 40, backgroundColor: '#34495E', flex: 1, justifyContent: 'center'},
   title: {
     fontSize: 20,
-    fontFamily: fonts.primary[600],
-    color: colors.text.white,
+    color: "#FFFFFF",
     marginTop: 40,
     marginBottom: 40,
     maxWidth: 153,

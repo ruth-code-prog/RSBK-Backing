@@ -15,8 +15,7 @@ export default Link;
 const styles = StyleSheet.create({
   text: (size, align) => ({
     fontSize: size,
-    color: colors.text.secondary,
-    fontFamily: fonts.primary.normal,
+    color: "#FFFFFF",
     textDecorationLine: 'underline',
     textAlign: align,
   }),

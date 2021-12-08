@@ -68,7 +68,7 @@ const PaidVideo = ({ navigation }) => {
                 <Text style={styles.title}>{item?.title}</Text>
                
                 <Text
-                  numberOfLines={2}
+                  numberOfLines={6}
                   lineBreakMode="tail"
                   style={styles.body}
                 >

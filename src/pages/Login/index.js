@@ -49,7 +49,7 @@ const Login = ({navigation}) => {
         <Button title="Sign In" onPress={login} />
         <Gap height={30} />
         <Link
-          title="Create New Account"
+          title="buat Akun Baru"
           size={16}
           align="center"
           onPress={() => navigation.navigate('Register')}
@@ -65,8 +65,7 @@ const styles = StyleSheet.create({
   page: {paddingHorizontal: 40, backgroundColor: '#34495E', flex: 1},
   title: {
     fontSize: 20,
-    fontFamily: fonts.primary[600],
-    color: colors.text.white,
+    color: "#FFFFFF",
     marginTop: 40,
     marginBottom: 40,
     maxWidth: 153,
