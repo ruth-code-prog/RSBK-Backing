@@ -34,7 +34,7 @@ const TextUser = props => {
                   marginBottom: 0,
                   //width: Dimensions.get("screen").width - 40,
                 }}
-                duration={20000}
+                duration={60000}
                 loop
                 // bounce
                 repeatSpacer={50}>

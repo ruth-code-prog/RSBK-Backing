@@ -1,10 +1,16 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {colors, fonts} from '../../../utils';
 import IconOnly from './IconOnly';
 import BtnIconSend from './BtnIconSend';
 
-const Button = ({type, title, onPress, icon, disable}) => {
+const Button = ({type, title, onPress, icon, disable, style, loading}) => {
   if (type === 'btn-icon-send') {
     return <BtnIconSend disable={disable} onPress={onPress} />;
   }
@@ -19,8 +25,18 @@ const Button = ({type, title, onPress, icon, disable}) => {
     );
   }
   return (
-    <TouchableOpacity style={styles.container(type)} onPress={onPress}>
-      <Text style={styles.text(type)}>{title}</Text>
+    <TouchableOpacity
+      style={[styles.container(type), style]}
+      onPress={() => {
+        if (!loading) {
+          onPress && onPress();
+        }
+      }}>
+      {loading ? (
+        <ActivityIndicator size={40} color={colors.white} />
+      ) : (
+        <Text style={styles.text(type)}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };

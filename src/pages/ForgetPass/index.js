@@ -49,7 +49,7 @@ const ForgetPass = ({navigation}) => {
 export default ForgetPass;
 
 const styles = StyleSheet.create({
-  page: {paddingHorizontal: 40, backgroundColor: '#34495E', flex: 1, justifyContent: 'center'},
+  page: {paddingHorizontal: 40, backgroundColor: '#112340', flex: 1, justifyContent: 'center'},
   title: {
     fontSize: 20,
     color: "#FFFFFF",

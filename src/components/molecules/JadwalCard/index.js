@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -7,18 +7,22 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
-const JadwalCard = ({
-  item,
-  type,
-  onRemove,
-  onPress,
-  uid,
-  jadwal,
-  onAdd,
-}) => {
+const JadwalCard = ({item, type, onRemove, onPress, uid, jadwal, onAdd}) => {
   const [isLoading, setLoading] = useState(false);
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    changeTitle();
+  }, []);
+
+  const changeTitle = () => {
+    let title = item?.title;
+    let arr = title.split('(');
+    arr = arr.join('\n(');
+    setName(arr);
+  };
 
   return (
     <View
@@ -30,14 +34,13 @@ const JadwalCard = ({
           marginRight: 10,
           marginBottom: 24,
           marginTop: 20,
-          backgroundColor: "#FFFFFF",
+          backgroundColor: '#FFFFFF',
         },
         styles.shadow,
-      ]}
-    >
+      ]}>
       <Image
         source={{
-          uri: item?.image || "",
+          uri: item?.image || '',
         }}
         style={{
           width: Dimensions.get('screen').width - 40,
@@ -49,90 +52,82 @@ const JadwalCard = ({
       <View
         style={{
           padding: 20,
-          backgroundColor: "white",
+          backgroundColor: 'white',
           borderBottomRightRadius: 10,
           borderBottomLeftRadius: 10,
-        }}
-      >
+        }}>
         <Text
           style={{
             fontSize: 16,
-            fontWeight: "bold",
-            color: "#2d3436",
+            fontWeight: 'bold',
+            color: '#2d3436',
             marginTop: 8,
-          }}
-        >
-          {item?.title}
+          }}>
+          {name}
         </Text>
         <Text
           numberOfLines={2}
-          ellipsizeMode={"tail"}
+          ellipsizeMode={'tail'}
           style={{
-            fontWeight: "bold",
+            fontWeight: 'bold',
             fontSize: 14,
-            color: "#27AE60",
-          }}
-        >
+            color: '#27AE60',
+          }}>
           {item?.senin}
         </Text>
 
         <Text
           numberOfLines={3}
-          ellipsizeMode={"tail"}
+          ellipsizeMode={'tail'}
           style={{
-            fontWeight: "bold",
+            fontWeight: 'bold',
             fontSize: 14,
-            color: "#27AE60",
-          }}
-        >
+            color: '#27AE60',
+          }}>
           {item?.selasa}
         </Text>
 
         <Text
           numberOfLines={4}
-          ellipsizeMode={"tail"}
+          ellipsizeMode={'tail'}
           style={{
-            fontWeight: "bold",
+            fontWeight: 'bold',
             fontSize: 14,
-            color: "#27AE60",
-          }}
-        >
+            color: '#27AE60',
+          }}>
           {item?.rabu}
         </Text>
 
         <Text
           numberOfLines={5}
-          ellipsizeMode={"tail"}
+          ellipsizeMode={'tail'}
           style={{
-            fontWeight: "bold",
+            fontWeight: 'bold',
             fontSize: 14,
-            color: "#27AE60",
-          }}
-        >
+            color: '#27AE60',
+          }}>
           {item?.kamis}
         </Text>
 
         <Text
           numberOfLines={6}
-          ellipsizeMode={"tail"}
+          ellipsizeMode={'tail'}
           style={{
-            fontWeight: "bold",
+            fontWeight: 'bold',
             fontSize: 14,
-            color: "#27AE60",
-          }}
-        >
+            color: '#27AE60',
+          }}>
           {item?.jumat}
         </Text>
 
         <Text
           numberOfLines={7}
-          ellipsizeMode={"tail"}
+          ellipsizeMode={'tail'}
           style={{
-            fontWeight: "bold",
+            fontWeight: 'bold',
             fontSize: 14,
-            color: "#27AE60",
-          }}
-        >
+            color: '#27AE60',
+          }}>
           {item?.sabtu}
         </Text>
       </View>
@@ -144,7 +139,7 @@ export default JadwalCard;
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -155,8 +150,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   rowBetweenCenter: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

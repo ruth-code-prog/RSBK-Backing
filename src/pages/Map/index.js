@@ -18,7 +18,7 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {marginTop: 20, marginBottom: 10, },
+  container: {marginTop: 14, marginBottom: 10, },
   peta: {
     height: Dimensions.get('screen').height / 6,
     width: Dimensions.get('screen').width - 2,

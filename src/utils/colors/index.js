@@ -12,13 +12,13 @@ const mainColors = {
   black1: '#000000',
   black2: 'rgba(0, 0, 0, 0.5)',
   red1: '#E06379',
-  putih: "#F5FFFA",
-  hitam: "#000000",
+  putih: '#F5FFFA',
+  hitam: '#000000',
 };
 
 export const colors = {
-  WARNA_UTAMA : 'putih',
-  WARNA_SEKUNDER : 'hitam',
+  WARNA_UTAMA: 'putih',
+  WARNA_SEKUNDER: 'hitam',
   primary: mainColors.green1,
   secondary: mainColors.dark1,
   tertiary: mainColors.blue1,

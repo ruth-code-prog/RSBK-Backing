@@ -53,7 +53,7 @@ const Voucher = ({data}) => {
             style={styles.user}
             resizeMode={'contain'}
           />
-          <Text style={styles.member}>Daftar/Login</Text>
+          <Text style={styles.member}>Daftar/Masuk</Text>
           <Text style={styles.member}> User</Text>
         </TouchableOpacity>
       </View>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   container: {
     // height: Dimensions.get('screen').height / 4,
     // width: Dimensions.get('screen').width - 2,
-    marginTop: 20,
+    marginTop: 22,
     padding: 10,
     backgroundColor: '#F8C471',
     borderRadius: 20,

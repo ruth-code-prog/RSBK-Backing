@@ -12,3 +12,10 @@ export const useForm = initialValue => {
     },
   ];
 };
+
+export function useFormSoul(initialState) {
+  const [state, setState] = useState(initialState);
+  const setMergedState = newState =>
+    setState(prevState => Object.assign({}, prevState, newState));
+  return [state, setMergedState];
+}

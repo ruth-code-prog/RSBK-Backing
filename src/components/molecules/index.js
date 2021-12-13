@@ -10,5 +10,7 @@ import Bonus from './Bonus'
 import Loading from "./Loading";
 import Profile from "./Profile";
 import HomeProfile from "./HomeProfile"
+import PopUp from "./PopUp"
+import ModalPenunjang from './ModalPenunjang';
 
-export { InputData, BottomTabNavigator, TabItem, HeadlineItem, BannerSlider, VideoPlayer, PopupPoint, JadwalCard, Bonus, Loading, Profile, HomeProfile}
+export { InputData, BottomTabNavigator, TabItem, HeadlineItem, BannerSlider, VideoPlayer, PopupPoint, JadwalCard, Bonus, Loading, Profile, HomeProfile, PopUp,  ModalPenunjang}

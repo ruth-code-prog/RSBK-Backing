@@ -46,7 +46,7 @@ const Login = ({navigation}) => {
         <Gap height={10} />
         <Link title="Forgot My Password" size={12}  onPress={() => navigation.navigate('ForgotPass')} />
         <Gap height={40} />
-        <Button title="Sign In" onPress={login} />
+        <Button title="Masuk" onPress={login} />
         <Gap height={30} />
         <Link
           title="buat Akun Baru"
@@ -62,7 +62,7 @@ const Login = ({navigation}) => {
 export default Login;
 
 const styles = StyleSheet.create({
-  page: {paddingHorizontal: 40, backgroundColor: '#34495E', flex: 1},
+  page: {paddingHorizontal: 40, backgroundColor: '#112340', flex: 1},
   title: {
     fontSize: 20,
     color: "#FFFFFF",

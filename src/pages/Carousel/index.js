@@ -18,7 +18,6 @@ const Carousel = props => {
         const arr = [...res.val()];
         const filteredArr = arr.filter(val => val !== null);
         const newArr = filteredArr?.map(val => val?.image);
-        console.log('bannerss', newArr);
         setBanners(newArr);
       })
       .catch(err => {

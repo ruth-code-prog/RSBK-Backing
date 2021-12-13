@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -9,19 +9,17 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import {
-  VideoPlayer,
-} from "../../components";
+} from 'react-native';
+import {VideoPlayer} from '../../components';
 import FIREBASE from '../../config/FIREBASE';
 
-const PaidVideo = ({ navigation }) => {
+const PaidVideo = ({navigation}) => {
   const [data, setData] = useState([]);
   const [allData, setAllData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [videoLink, setVideoLink] = useState("");
-  const [videoModal, setVideoModal] = useState("");
+  const [videoLink, setVideoLink] = useState('');
+  const [videoModal, setVideoModal] = useState('');
 
   const [selectedLink, setSelectedLink] = useState(null);
 
@@ -31,15 +29,15 @@ const PaidVideo = ({ navigation }) => {
 
   const getData = () => {
     FIREBASE.database()
-      .ref("video/")
-      .once("value")
-      .then((res) => {
+      .ref('video-informasi/')
+      .once('value')
+      .then(res => {
         const snapshotVal = res.val();
-        const arr = snapshotVal.filter((val) => val);
+        const arr = snapshotVal.filter(val => val);
         setData(arr);
         setAllData(arr);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   };
@@ -53,28 +51,31 @@ const PaidVideo = ({ navigation }) => {
           keyExtractor={(_, index) => index.toString()}
           data={data}
           contentContainerStyle={styles.listContentContainer}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <TouchableOpacity
-              onPress={() => {{
+              onPress={() => {
+                {
                   setVideoLink(item?.link);
                   setVideoModal(true);
                 }
               }}
               activeOpacity={0.8}
-              style={styles.videoContainer}
-            >
+              style={styles.videoContainer}>
               <View>
-              <Image source={{ uri: item?.image }} style={styles.thumbnail} />
+                <Image source={{uri: item?.image}} style={styles.thumbnail} />
                 <Text style={styles.title}>{item?.title}</Text>
-               
+
                 <Text
                   numberOfLines={6}
                   lineBreakMode="tail"
-                  style={styles.body}
-                >
+                  style={styles.body}>
                   {item?.body}
                 </Text>
-                <Image source={require("../../assets/gif.gif")} style={{width:50, height:50}} resizeMode={"contain"} />
+                <Image
+                  source={require('../../assets/gif.gif')}
+                  style={{width: 50, height: 50}}
+                  resizeMode={'contain'}
+                />
               </View>
             </TouchableOpacity>
           )}
@@ -97,7 +98,7 @@ export default PaidVideo;
 const styles = StyleSheet.create({
   pages: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     marginBottom: 10,
   },
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     // justifyContent: "space-between",
   },
   columnWrapperStyle: {
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   titleWrapperStyle: {
     flex: 1,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 15,
     backgroundColor: 'white',
-    borderRadius: 5,
+    borderRadius: 20,
     marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: {
@@ -130,16 +131,18 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   thumbnail: {
-    width: 280, height: 240, borderRadius: 11,
+    width: 280,
+    height: 240,
+    borderRadius: 11,
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
-    color:  "#0000FF",
+    fontWeight: 'bold',
+    color: '#0000FF',
     marginTop: 20,
   },
   body: {
     fontSize: 12,
-    color:  "#0000FF",
+    color: '#0000FF',
   },
 });

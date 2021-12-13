@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import Video from '../Video';
+import VideoNotif from '../../components/atoms/VideoNotif';
 
 const Obat = () => {
   return (
     <View style={styles.page}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.subtitle}>Supported By Alo Care Apps</Text>
-          <Video />
-        </ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={styles.subtitle}>Supported By Alo Care Apps</Text>
+        <VideoNotif />
+      </ScrollView>
     </View>
   );
 };
@@ -18,7 +18,7 @@ export default Obat;
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: '#34495E',
+    backgroundColor: '#112340',
   },
   header: {
     paddingHorizontal: 12,

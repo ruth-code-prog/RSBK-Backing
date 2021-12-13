@@ -1,6 +1,17 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Home, Informasi, Obat, Splash, Register, Sukses, Login, ForgotPass} from '../pages';
+import {
+  Home,
+  Informasi,
+  Obat,
+  Splash,
+  Register,
+  Sukses,
+  Login,
+  ForgotPass,
+  Video,
+  PenunjangUser,
+} from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigator} from '../components';
 
@@ -43,6 +54,11 @@ const Router = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="Video"
+        component={Video}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="Login"
         component={Login}
         options={{headerShown: false}}
@@ -50,7 +66,12 @@ const Router = () => {
       <Stack.Screen
         name="ForgotPass"
         component={ForgotPass}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
+      />
+       <Stack.Screen
+        name="PenunjangUser"
+        component={PenunjangUser}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

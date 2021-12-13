@@ -94,7 +94,7 @@ export default Register;
 
 const styles = StyleSheet.create({
   page: { flex: 1,
-        backgroundColor: '#34495E',
+        backgroundColor: '#112340',
         borderRadius: 10,
         paddingLeft: 10,
         paddingTop: 12,

@@ -19,12 +19,13 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {alignItems: 'center', marginTop: 12, marginBottom: 12},
+  container: {alignItems: 'center', marginTop: 12, marginBottom: 12, borderRadius: 20},
   chat: {
-    width: 160,
-    height: 88,
+    width: 180,
+    height: 108,
     resizeMode: "contain",
     marginBottom: 100,
+    borderRadius: 20
   },
   //url: {marginTop: 6}
 });

@@ -20,7 +20,7 @@ const Home = ({navigation}) => {
   const [banner, setBanner] = useState([]);
 
   useEffect(() => {
-    // getImage();
+    getImage();
     getBanner();
   }, []);
 
@@ -44,7 +44,7 @@ const Home = ({navigation}) => {
         <RunningText />
         <Carousel />
 
-        <Text style={styles.subtitle}>Headline Info</Text>
+        <Text style={styles.subtitle}>Layanan Online RS.Bayukarta</Text>
         <Headline />
         <Jadwal />
         <Voucher data={banner} />
@@ -61,7 +61,7 @@ export default Home;
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: '#34495E',
+    backgroundColor: '#112340',
   },
   header: {
     paddingHorizontal: 12,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginTop: 10,
+    marginTop: 20,
     color: '#FBFCFC',
     paddingLeft: 10,
   },

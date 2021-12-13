@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    borderRadius: 10,
-    marginTop: 10,
+    borderRadius: 18,
+    marginTop: 12,
   },
   welcome: {
     fontSize: 20,

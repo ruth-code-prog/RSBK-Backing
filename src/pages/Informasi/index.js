@@ -20,7 +20,7 @@ export default Informasi;
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: '#34495E',
+    backgroundColor: '#112340',
   },
   subtitle: {
     fontSize: 16,
