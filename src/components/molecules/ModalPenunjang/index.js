@@ -9,12 +9,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import IcEye from '../../../assets/icons/eye.svg';
+import IcEyeSlash from '../../../assets/icons/eye-slash.svg';
 import {Button, Gap, Input} from '../..';
 import {colors} from '../../../utils';
 
 const ModalPenunjang = ({visible, onSubmit, profile, onClose}) => {
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigation = useNavigation();
 
@@ -42,11 +45,13 @@ const ModalPenunjang = ({visible, onSubmit, profile, onClose}) => {
             <Text style={{color: 'black', fontSize: 24}}>X</Text>
           </TouchableOpacity>
           <Input
-            secureTextEntry
             value={password}
             onChangeText={val => setPassword(val)}
             label={'Password'}
             isDark
+            secureTextEntry={!showPassword}
+            right={!showPassword ? <IcEye /> : <IcEyeSlash />}
+            onPressRight={() => setShowPassword(!showPassword)}
           />
           <Gap height={20} />
           <Text style={styles.textInfo}>

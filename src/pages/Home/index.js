@@ -14,10 +14,12 @@ import Jadwal from '../Jadwal';
 import Map from '../Map';
 import Voucher from '../Voucher';
 import { ScrollView } from 'react-native-gesture-handler';
+import {useDispatch} from 'react-redux';
 
 const Home = ({navigation}) => {
   const [pointPopup, setPointPopup] = useState(false);
   const [banner, setBanner] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getImage();
@@ -31,9 +33,11 @@ const Home = ({navigation}) => {
   };
 
   const getBanner = () => {
+    dispatch({type: 'SET_LOADING', value: true});
     FIREBASE.database()
       .ref('banner')
       .once('value', snapshot => {
+        dispatch({type: 'SET_LOADING', value: false});
         setBanner(snapshot.val());
       });
   };
@@ -49,8 +53,10 @@ const Home = ({navigation}) => {
         <Jadwal />
         <Voucher data={banner} />
         <Map />
-        <Notif />
         <Developer />
+        <Text style={styles.version}>Bayukarta Mobile App</Text>
+        <Text style={styles.version2}>Versi: 1</Text>
+        <Notif />
       </ScrollView>
       <PopupPoint visible={pointPopup} onClose={() => setPointPopup(false)} />
     </View>
@@ -80,6 +86,19 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: '#FBFCFC',
     paddingLeft: 10,
+  },
+  version: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FBFCFC',
+    textAlign: "center",
+  },
+  version2: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FBFCFC',
+    textAlign: "center",
+    paddingBottom: 40,
   },
   listPasien: {
     paddingHorizontal: 30,

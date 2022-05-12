@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {useFocusEffect, useRoute} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Alert,
   FlatList,
@@ -12,11 +12,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {Button, Gap, Input} from '../../components';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import Share from 'react-native-share';
+import {Button, Gap, Input, Loading, ModalAddPenunjang} from '../../components';
 import FIREBASE from '../../config/FIREBASE';
-import {useForm, useFormSoul} from '../../utils';
+import {colors, useFormSoul} from '../../utils';
+import {faSearch} from '@fortawesome/free-solid-svg-icons';
 
 const PenunjangUser = () => {
   const {profile} = useRoute().params || {};
@@ -26,10 +29,19 @@ const PenunjangUser = () => {
     image: null,
   });
   const [uploadLoading, setUploadLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
   const [uid, setUid] = useState('');
   const [modalImage, setModalImage] = useState(false);
   const [indexActive, setIndexActive] = useState(0);
+  const [addPenunjangVisible, setAddPenunjangVisible] = useState(false);
+
+  const closeModal = () => {
+    if (modalImage) {
+      setModalImage(false)
+    }
+  }
 
   useFocusEffect(
     useCallback(() => {
@@ -61,6 +73,12 @@ const PenunjangUser = () => {
         });
 
         setData(arr);
+        setOriginalData(arr);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
       });
   };
 
@@ -116,7 +134,7 @@ const PenunjangUser = () => {
         title: form.title,
         image: form.image,
       });
-    console.log('awekoawke keyyy', ref.key);
+
     ref
       .then(() => {
         setUploadLoading(false);
@@ -130,10 +148,21 @@ const PenunjangUser = () => {
             id: ref.key,
           },
         ]);
+        setOriginalData([
+          ...originalData,
+          {
+            title: form.title,
+            url: form.image,
+            id: ref.key,
+          },
+        ]);
       })
       .catch(err => {
         setUploadLoading(false);
         console.error(err);
+      })
+      .finally(() => {
+        setAddPenunjangVisible(false);
       });
   };
 
@@ -155,10 +184,30 @@ const PenunjangUser = () => {
               let arr = [...data];
               arr = arr.filter(val => val?.id !== item?.id);
               setData(arr);
+              setOriginalData(arr);
             });
         },
       },
     ]);
+  };
+
+  const handleSearch = val => {
+    let arr = [...originalData];
+    var searchRegex = new RegExp(val, 'i');
+    arr = arr.filter(item => searchRegex?.test(item?.title));
+    setData(arr);
+  };
+
+  const shareImage = url => {
+    Share.open({
+      url,
+    })
+      .then(res => {
+        console.log('ree', res);
+      })
+      .catch(err => {
+        err && console.error(err);
+      });
   };
 
   return (
@@ -170,6 +219,19 @@ const PenunjangUser = () => {
           style={
             styles.headerText
           }>{`Sampurasun ${profile?.fullName}\nIni adalah halaman User Uploud Gambar\nPemeriksaan Penunjang, Kartu ASKES\n Kartu Golongan Darah,dll`}</Text>
+        <Gap height={20} />
+        <View style={{width: '100%', paddingHorizontal: 20}}>
+          <Input
+            style={{paddingRight: 40}}
+            onChangeText={val => handleSearch(val)}
+            label={'Cari foto sesuai judul'}
+          />
+          <FontAwesomeIcon
+            color={colors.white}
+            style={{position: 'absolute', top: '58%', right: 32}}
+            icon={faSearch}
+          />
+        </View>
         <Gap height={20} />
         <FlatList
           data={data}
@@ -193,40 +255,23 @@ const PenunjangUser = () => {
               </TouchableOpacity>
               <Gap height={20} />
               <Text>{item?.title}</Text>
+              <TouchableOpacity
+                onPress={() => shareImage(item?.url)}
+                style={styles.btnShare}>
+                <Text style={{fontSize: 16, color: 'white'}}>Bagikan Foto</Text>
+              </TouchableOpacity>
             </View>
           )}
         />
         <Gap height={70} />
-        <View>
-          <Text style={styles.headerText}>Tambah Foto Medical Record Anda</Text>
-          <Gap height={20} />
-          <Input
-            value={form.title}
-            onChangeText={val => setForm({title: val})}
-            label={'Masukkan Judul'}
-          />
-          {form?.image && (
-            <View style={{alignItems: 'center'}}>
-              <Gap height={20} />
-              <Image style={styles.image} source={{uri: form?.image}} />
-            </View>
-          )}
-          <Gap height={20} />
+        <View style={{width: '100%', paddingHorizontal: 16}}>
           <Button
-            onPress={showAlert}
-            type={'secondary'}
-            title={form?.image ? 'Ubah Gambar' : 'Upload Gambar'}
-          />
-          <Gap height={20} />
-          <Button
-            onPress={() => handleUploadImage()}
-            disable={form.title === '' || !form.image}
-            loading={uploadLoading}
-            title={'Kirim'}
+            title={'Tambah Foto'}
+            onPress={() => setAddPenunjangVisible(true)}
           />
         </View>
       </ScrollView>
-      <Modal visible={modalImage} transparent>
+      <Modal visible={modalImage} transparent onRequestClose={closeModal}>
         <ImageViewer
           index={indexActive}
           enableSwipeDown
@@ -234,6 +279,16 @@ const PenunjangUser = () => {
           imageUrls={data}
         />
       </Modal>
+      <ModalAddPenunjang
+        visible={addPenunjangVisible}
+        onAddImage={showAlert}
+        onSubmit={handleUploadImage}
+        uploadLoading={uploadLoading}
+        form={form}
+        setForm={setForm}
+        onClose={() => setAddPenunjangVisible(false)}
+      />
+      {loading && <Loading />}
     </View>
   );
 };
@@ -258,7 +313,7 @@ const styles = StyleSheet.create({
   image: {
     height: 200,
     width: 200,
-    borderRadius: 20
+    borderRadius: 20,
   },
   btnDelete: {
     backgroundColor: 'red',
@@ -267,5 +322,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 8,
     top: 8,
+  },
+  btnShare: {
+    backgroundColor: colors.primary,
+    padding: 8,
+    marginTop: 8,
   },
 });

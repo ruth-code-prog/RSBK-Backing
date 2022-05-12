@@ -38,8 +38,13 @@ const VideoPlayer = ({link, visible, onClose}) => {
           videoId={link}
           onChangeState={onStateChange}
         />
+        <TouchableOpacity
+          title={playing ? 'Jeda' : 'Putar Video'}
+          onPress={togglePlaying}
+          style={styles.btnPlay}>
+          <Text style={styles.btnPlayText}>Putar</Text>
+        </TouchableOpacity>
 
-        <Button title={playing ? 'Jeda' : 'Putar Video'} onPress={togglePlaying} />
         <TouchableOpacity
           onPress={() => {
             setPlaying(false);
@@ -80,12 +85,17 @@ const styles = StyleSheet.create({
   btnPlay: {
     height: 42,
     borderRadius: 10,
-    backgroundColor: '#008000',
+    backgroundColor: '#0000FF',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 8,
   },
   btnCloseText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#FFFFFF',
+  },
+  btnPlayText: {
     fontSize: 18,
     textAlign: 'center',
     color: '#FFFFFF',

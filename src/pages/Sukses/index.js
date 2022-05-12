@@ -3,36 +3,56 @@ import {useFocusEffect} from '@react-navigation/core';
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
-  FlatList,
+  ActivityIndicator,
   Image,
+  ImageBackground,
   Modal,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  ImageBackground
 } from 'react-native';
 import CurrencyFormatter from 'react-native-currency-formatter';
+import {ILNullPhoto} from '../../assets';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import {Button, Gap, HomeProfile,  PopUp, ModalPenunjang} from '../../components';
+import Share from 'react-native-share';
+import RNFetchBlob from 'rn-fetch-blob';
+import {
+  Button,
+  Gap,
+  HomeProfile,
+  Loading,
+  ModalPenunjang,
+  PopUp,
+} from '../../components';
 import FIREBASE from '../../config/FIREBASE';
-import {getData} from '../../utils';
+import {colors, getData} from '../../utils';
 import TextUser from '../TextUser';
+import Appoitment from '../Appoitment';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Sukses = () => {
   const navigation = useNavigation();
   const [userHomeData, setUserHomeData] = useState({});
   const [videoData, setVideoData] = useState([]);
   const [profile, setProfile] = useState({
+    photo: ILNullPhoto,
     fullName: '',
   });
+  const [loading, setLoading] = useState(true);
   const [modalImage, setModalImage] = useState(false);
   const [imageData, setImageData] = useState([]);
   const [indexActive, setIndexActive] = useState(0);
   const [popUp, setPopUp] = useState(false);
 
   const [penunjangModal, setPenunjangModal] = useState(false);
+
+  const closeModal = () => {
+    if (modalImage) {
+      setModalImage(false);
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -52,13 +72,19 @@ const Sukses = () => {
   }, []);
 
   const getUserData = () => {
-    getData('user').then(res => {
-      const data = res;
-      let arr = [];
-      data?.image?.filter(val => val).map(val => arr.push({url: val}));
-      setImageData(arr);
-      setProfile(res);
-    });
+    getData('user')
+      .then(res => {
+        const data = res;
+        let arr = [];
+        data?.image?.filter(val => val).map(val => arr.push({url: val}));
+        setImageData(arr);
+        setProfile(res);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
   };
 
   const getUserHomeData = uid => {
@@ -77,8 +103,86 @@ const Sukses = () => {
     }
   };
 
+  const ImageLoading = ({item, index}) => {
+    const [loadingImage, setLoadingImage] = useState(true);
+    const [loadingShare, setLoadingShare] = useState(false);
+
+    const shareImage = url => {
+      setLoadingShare(true);
+      const fs = RNFetchBlob.fs;
+      let imagePath = null;
+      RNFetchBlob.config({
+        fileCache: true,
+      })
+        .fetch('GET', item?.url)
+        // the image is now dowloaded to device's storage
+        .then(resp => {
+          // the image path you can use it directly with Image component
+          imagePath = resp.path();
+          return resp.readFile('base64');
+        })
+        .then(base64Data => {
+          // here's base64 encoded image
+          console.log(base64Data);
+          setLoadingShare(false);
+
+          Share.open({
+            url: `data:image/jpeg;base64, ${base64Data}`,
+          })
+            .then(res => {
+              console.log('ree', res);
+            })
+            .catch(err => {
+              err && console.error(err);
+            });
+          // remove the file from storage
+          return fs.unlink(imagePath);
+        })
+        .catch(err => {
+          setLoadingShare(false);
+          console.error(err);
+        });
+    };
+    return (
+      <View style={{marginBottom: 24}}>
+        <TouchableOpacity
+          onPress={() => {
+            setModalImage(true);
+            setIndexActive(index);
+          }}>
+          <Image
+            onLoadEnd={() => {
+              setLoadingImage(false);
+            }}
+            source={{uri: item?.url}}
+            style={styles.imageBox}
+          />
+          {loadingImage && (
+            <View style={{marginVertical: 24}}>
+              <ActivityIndicator color={colors.primary} size={40} />
+            </View>
+          )}
+        </TouchableOpacity>
+        {loadingShare ? (
+          <ActivityIndicator size={24} />
+        ) : (
+          <TouchableOpacity
+            onPress={() => shareImage(item?.url)}
+            style={styles.btnShare}>
+            <Text style={{fontSize: 16, color: 'white', textAlign: 'center'}}>
+              Bagikan Foto
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  };
+
   return (
-    <ImageBackground source={require('../../assets/ILprivacyBackground.png')} style={styles.container}>
+    <ImageBackground
+      source={require('../../assets/ILprivacyBackground.png')}
+      style={styles.container}>
+      {loading && <Loading />}
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',
@@ -93,15 +197,9 @@ const Sukses = () => {
           Estimasi Biaya Rawat Anda:
           {CurrencyFormatter(userHomeData !== null ? userHomeData.estimasi : 0)}
         </Text>
+        <Gap height={20} />
         {imageData?.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => {
-              setModalImage(true);
-              setIndexActive(index);
-            }}>
-            <Image source={{uri: item?.url}} style={styles.imageBox} />
-          </TouchableOpacity>
+          <ImageLoading index={index} key={index} item={item} />
         ))}
         <Gap height={20} />
         <Button
@@ -120,16 +218,26 @@ const Sukses = () => {
           style={{width: '100%'}}
         />
         <View style={styles.image}>
+          <TouchableOpacity onPress={() => navigation.navigate('Appoitment')}>
+            <Image
+              source={require('../../assets/logOut.png')}
+              style={styles.chat}
+              resizeMode={'contain'}
+            />
+            <Text style={styles.keluar}>Appoitment Klinik</Text>
+          </TouchableOpacity>
+          <Gap height={20} />
           <TouchableOpacity onPress={() => navigation.navigate('MainApp')}>
             <Image
               source={require('../../assets/logOut.png')}
               style={styles.chat}
               resizeMode={'contain'}
             />
+            <Text style={styles.keluar}>Keluar</Text>
           </TouchableOpacity>
         </View>
         <TextUser />
-        <Modal visible={modalImage} transparent>
+        <Modal visible={modalImage} transparent onRequestClose={closeModal}>
           <ImageViewer
             index={indexActive}
             enableSwipeDown
@@ -145,7 +253,7 @@ const Sukses = () => {
         onSubmit={() => setPenunjangModal(false)}
         onClose={() => setPenunjangModal(false)}
       />
-     </ImageBackground>
+    </ImageBackground>
   );
 };
 
@@ -162,7 +270,6 @@ const styles = StyleSheet.create({
   imageBox: {
     height: 200,
     width: 200,
-    marginVertical: 20,
     borderRadius: 20,
   },
   //url: {marginTop: 6}
@@ -170,28 +277,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#E5B654',
     marginTop: 12,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   name: {
     fontSize: 14,
     color: '#E5B654',
     marginTop: 12,
   },
+  btnShare: {
+    backgroundColor: colors.button.primary.background,
+    padding: 8,
+    marginTop: 8,
+  },
+  keluar: {
+    textAlign: 'center',
+  },
 });
 
 export default Sukses;
-
-
-
-
-
-
-
-  
-
-
-
-
- 
-      
-  

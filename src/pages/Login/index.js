@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import IcEye from '../../assets/icons/eye.svg';
+import IcEyeSlash from '../../assets/icons/eye-slash.svg';
 import {Button, Gap, Input, Link} from '../../components';
 import FIREBASE from '../../config/FIREBASE';
 import {colors, fonts, showError, storeData, useForm} from '../../utils';
 
 const Login = ({navigation}) => {
   const [form, setForm] = useForm({email: '', password: ''});
+  const [showPassword, setShowPassword] = useState(false);
 
   const login = () => {
     FIREBASE.auth()
@@ -41,10 +44,16 @@ const Login = ({navigation}) => {
           label="Password"
           value={form.password}
           onChangeText={value => setForm('password', value)}
-          secureTextEntry
+          secureTextEntry={!showPassword}
+          right={!showPassword ? <IcEye /> : <IcEyeSlash />}
+          onPressRight={() => setShowPassword(!showPassword)}
         />
         <Gap height={10} />
-        <Link title="Forgot My Password" size={12}  onPress={() => navigation.navigate('ForgotPass')} />
+        <Link
+          title="Forgot My Password"
+          size={12}
+          onPress={() => navigation.navigate('ForgotPass')}
+        />
         <Gap height={40} />
         <Button title="Masuk" onPress={login} />
         <Gap height={30} />
@@ -65,7 +74,7 @@ const styles = StyleSheet.create({
   page: {paddingHorizontal: 40, backgroundColor: '#112340', flex: 1},
   title: {
     fontSize: 20,
-    color: "#FFFFFF",
+    color: '#FFFFFF',
     marginTop: 40,
     marginBottom: 40,
     maxWidth: 153,

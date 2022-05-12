@@ -1,5 +1,11 @@
 import React from 'react';
-import {Dimensions, Image, Linking, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Linking,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 
 const Bonus = ({url, link}) => {
   // const [imageUri, setImageUri] = useState('');
@@ -23,7 +29,7 @@ const Bonus = ({url, link}) => {
         console.log(link);
       }}
       style={styles.container}>
-      <Image style={styles.image} source={{uri: url}} />
+      <Image style={styles.image} resizeMode="contain" source={{uri: url}} />
     </TouchableOpacity>
   );
 };

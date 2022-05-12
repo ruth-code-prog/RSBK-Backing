@@ -9,18 +9,22 @@ import {
   View,
 } from 'react-native';
 import FIREBASE from '../../../config/FIREBASE';
+import {useDispatch} from 'react-redux';
 
 const PopupPoint = ({visible, onClose}) => {
   const [imageUri, setImageUri] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getImage();
   }, []);
 
   const getImage = () => {
+    dispatch({type: 'SET_LOADING', value: true});
     FIREBASE.database()
       .ref('popup_banner')
       .once('value', snapshot => {
+        dispatch({type: 'SET_LOADING', value: false});
         setImageUri(snapshot.val());
       });
   };
@@ -29,8 +33,9 @@ const PopupPoint = ({visible, onClose}) => {
     <Modal animationType="fade" visible={visible} transparent>
       <View style={styles.container}>
         <View style={{alignItems: 'center'}}>
-          <TouchableOpacity
+        <TouchableOpacity
             onPress={() => onClose && onClose()}
+            activeOpacity={0.8}
             style={styles.closeButton}>
             <Text style={styles.closeText}>X</Text>
           </TouchableOpacity>
@@ -62,14 +67,20 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   closeButton: {
-    position: 'absolute',
+    height: 40,
+    width: 40,
+    borderRadius: 200,
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    right: -8,
+    top: -12,
     zIndex: 9999,
-    right: 24,
-    top: 8,
   },
   closeText: {
-    fontSize: 32,
+    fontSize: 22,
     fontWeight: 'bold',
-    color: "#FFFFFF",
+    color: "#000000",
   },
 });

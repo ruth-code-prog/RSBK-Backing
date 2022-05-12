@@ -54,7 +54,7 @@ const Voucher = ({data}) => {
             resizeMode={'contain'}
           />
           <Text style={styles.member}>Daftar/Masuk</Text>
-          <Text style={styles.member}> User</Text>
+          <Text style={styles.member}> Akun Premium</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -4,6 +4,7 @@ import {
   Home,
   Informasi,
   Obat,
+  Appoitment,
   Splash,
   Register,
   Sukses,
@@ -11,6 +12,7 @@ import {
   ForgotPass,
   Video,
   PenunjangUser,
+  UploadPhoto,
 } from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigator} from '../components';
@@ -54,6 +56,11 @@ const Router = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="UploadPhoto"
+        component={UploadPhoto}
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
         name="Video"
         component={Video}
         options={{headerShown: false}}
@@ -71,6 +78,11 @@ const Router = () => {
        <Stack.Screen
         name="PenunjangUser"
         component={PenunjangUser}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Appoitment"
+        component={Appoitment}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

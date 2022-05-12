@@ -1,12 +1,35 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {colors, fonts} from '../../../utils';
+import {colors, fonts, getData} from '../../../utils';
+import {ILUsernull} from '../../../assets';
 
-const HomeProfile = ({onPress, profile}) => {
+const HomeProfile = ({onPress}) => {
+  const [profile, setProfile] = useState({
+    photo: ILUsernull,
+    fullName: '',
+    profession: '',
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getData('user')
+      .then(res => {
+        const data = res;
+        data.photo = {uri: res.photo};
+        setProfile(res);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
-      <View>
-        <Text style={styles.name}>{profile?.fullName}</Text>
-      </View>
+    <View>
+      <Text style={styles.name}>{profile?.fullName}</Text>
+      <Image source={profile.photo} style={styles.avatar} />
+    </View>
   );
 };
 
@@ -18,13 +41,15 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontFamily: fonts.primary[600],
-    color: "#E5B654",
+    color: '#E5B654',
     textTransform: 'capitalize',
+    textAlign: 'center',
   },
-  profession: {
-    fontSize: 12,
-    fontFamily: fonts.primary[400],
-    color: colors.text.secondary,
-    textTransform: 'capitalize',
+  avatar: {
+    width: 300,
+    height: 220,
+    borderRadius: 46 / 2,
+    marginRight: 12,
+    marginTop: 20,
   },
 });

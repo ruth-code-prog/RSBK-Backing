@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 import FIREBASE from '../../config/FIREBASE';
 import PushNotification from 'react-native-push-notification';
 import NotifService from '../../../NotifService';
+import handler from '../../../NotificationHandler';
 
 const Splash = ({navigation}) => {
   const [pushNotification, setPushNotification] = useState(false);
@@ -25,18 +26,19 @@ const Splash = ({navigation}) => {
         }
       }, 3000);
       PushNotification.localNotification({
-        channelId: "bayukartamobile",
-        message: " Health_tech (RS Bayukarta Mobile Apps)", // (required)
-        date: new Date(Date.now() + (1 * 1000)) // in 60 secs
-      })
+        channelId: 'bayukartamobile',
+        message: ' Health_tech (RS Bayukarta Mobile Apps)', // (required)
+        date: new Date(Date.now() + 1 * 1000), // in 60 secs
+      });
     });
 
     return () => unsubscribe();
   }, [navigation]);
 
   return (
-    <ImageBackground source={require('../../assets/ILopening.jpeg')} style={styles.page}>
-    </ImageBackground>
+    <ImageBackground
+      source={require('../../assets/ILopening.jpeg')}
+      style={styles.page}></ImageBackground>
   );
 };
 
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
   page: {
     padding: 40,
     justifyContent: 'space-between',
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     flex: 1,
   },
   title: {

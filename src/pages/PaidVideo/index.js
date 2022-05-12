@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {VideoPlayer} from '../../components';
 import FIREBASE from '../../config/FIREBASE';
+import {useDispatch} from 'react-redux';
 
 const PaidVideo = ({navigation}) => {
   const [data, setData] = useState([]);
@@ -22,16 +23,19 @@ const PaidVideo = ({navigation}) => {
   const [videoModal, setVideoModal] = useState('');
 
   const [selectedLink, setSelectedLink] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getData();
   }, []);
 
   const getData = () => {
+    dispatch({type: 'SET_LOADING', value: true});
     FIREBASE.database()
       .ref('video-informasi/')
       .once('value')
       .then(res => {
+        dispatch({type: 'SET_LOADING', value: false});
         const snapshotVal = res.val();
         const arr = snapshotVal.filter(val => val);
         setData(arr);
@@ -63,6 +67,11 @@ const PaidVideo = ({navigation}) => {
               style={styles.videoContainer}>
               <View>
                 <Image source={{uri: item?.image}} style={styles.thumbnail} />
+                <Image
+                  source={require('../../assets/gif.gif')}
+                  style={{width: 50, height: 50}}
+                  resizeMode={'contain'}
+                />
                 <Text style={styles.title}>{item?.title}</Text>
 
                 <Text
@@ -71,11 +80,6 @@ const PaidVideo = ({navigation}) => {
                   style={styles.body}>
                   {item?.body}
                 </Text>
-                <Image
-                  source={require('../../assets/gif.gif')}
-                  style={{width: 50, height: 50}}
-                  resizeMode={'contain'}
-                />
               </View>
             </TouchableOpacity>
           )}
@@ -113,7 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   videoContainer: {
-    height: 360,
+    height: 400,
     marginRight: 10,
     flexDirection: 'row',
     padding: 15,

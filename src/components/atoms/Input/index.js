@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import {colors, fonts} from '../../../utils';
 
 const Input = ({
@@ -10,6 +16,9 @@ const Input = ({
   disable,
   keyboardType,
   isDark,
+  right,
+  onPressRight,
+  style,
 }) => {
   const [border, setBorder] = useState(colors.border);
   const onFocusForm = () => {
@@ -29,7 +38,7 @@ const Input = ({
       <TextInput
         onFocus={onFocusForm}
         onBlur={onBlurForm}
-        style={[styles.input(border), colorLabel]}
+        style={[styles.input(border), colorLabel, style]}
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
@@ -37,6 +46,16 @@ const Input = ({
         selectTextOnFocus={!disable}
         keyboardType={keyboardType}
       />
+      {right && (
+        <TouchableOpacity
+          onPress={() => {
+            onPressRight && onPressRight();
+          }}
+          style={styles.right}
+          activeOpacity={onPressRight ? 0.6 : 1}>
+          {right}
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -54,5 +73,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
 
     marginBottom: 6,
+  },
+  right: {
+    position: 'absolute',
+    right: 16,
+    top: '50%',
   },
 });

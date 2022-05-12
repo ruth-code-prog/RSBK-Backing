@@ -8,6 +8,8 @@ import Login from './Login';
 import ForgotPass from './ForgetPass';
 import Video from './Video';
 import PenunjangUser from './PenunjangUser';
+import UploadPhoto from './UploadPhoto';
+import Appoitment from './Appoitment';
 
 export {
   Home,
@@ -20,4 +22,6 @@ export {
   ForgotPass,
   Video,
   PenunjangUser,
+  UploadPhoto,
+  Appoitment,
 };

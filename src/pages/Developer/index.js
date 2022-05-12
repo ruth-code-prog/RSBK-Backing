@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     width: 180,
     height: 108,
     resizeMode: "contain",
-    marginBottom: 100,
+    marginBottom: 20,
     borderRadius: 20
   },
   //url: {marginTop: 6}

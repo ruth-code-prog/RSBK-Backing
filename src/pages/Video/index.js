@@ -14,6 +14,7 @@ import {Button, Alert} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {Gap, VideoPlayer} from '../../components';
 import FIREBASE from '../../config/FIREBASE';
+import {useDispatch} from 'react-redux';
 
 const Video = () => {
   const {profile} = useRoute().params;
@@ -21,6 +22,7 @@ const Video = () => {
   const [videoVisible, setVideoVisible] = useState(false);
 
   const [videoData, setVideoData] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     FIREBASE.auth().onAuthStateChanged(async data => {
@@ -33,9 +35,11 @@ const Video = () => {
   }, []);
 
   const getUserVideo = uid => {
+    dispatch({type: 'SET_LOADING', value: true});
     FIREBASE.database()
       .ref('video/' + uid)
       .on('value', snapshot => {
+        dispatch({type: 'SET_LOADING', value: false});
         if (snapshot.val()) {
           setVideoData(snapshot.val().filter(val => val));
         }
@@ -47,7 +51,7 @@ const Video = () => {
       <ScrollView
         contentContainerStyle={{alignItems: 'center', paddingVertical: 20}}
         showsVerticalScrollIndicator={false}>
-        <Text style={{fontSize: 14, fontWeight: 'bold', textAlign: 'center'}}>
+        <Text style={{fontSize: 14, fontWeight: 'bold', textAlign: 'center', color: '#E5B654'}}>
           {`Sampurasun ${profile?.fullName}\n(ini adalah list video: TeleMedicine milik Anda)\n(untuk memperoleh fasilitas TeleMedicine)\n(hubungi Information Center)`}
         </Text>
         {videoData?.map((item, index) => (
@@ -60,7 +64,7 @@ const Video = () => {
             key={index}>
             <Image source={{uri: item?.image}} style={styles.image} />
             <Gap height={16} />
-            <Text style={{textAlign: 'center'}}>{item?.title}</Text>
+            <Text style={{textAlign: 'center', color: '#E5B654'}}>{item?.title}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>

@@ -13,34 +13,33 @@ import FIREBASE from '../../config/FIREBASE';
 import {colors, showError, storeData, useForm} from '../../utils';
 import {InputData, Button, Header, Gap, Input} from '../../components';
 
-const Register = ({navigation}) => {
+const Appoitment = ({navigation}) => {
   const [form, setForm] = useForm({
     fullName: '',
+    wetone: '',
     mobileNumber: '',
-    email: '',
-    password: '',
+    klinik: '',
+    doctor: '',
+    date: '',
   });
-  const [showPassword, setShowPassword] = useState(false);
 
   const onContinue = () => {
-    FIREBASE.auth()
-      .createUserWithEmailAndPassword(form.email, form.password)
+    FIREBASE.database()
+    .pushData(klinik)
       .then(success => {
         setForm('reset');
         const data = {
           fullName: form.fullName,
+          wetone: form.wetone,
           mobileNumber: form.mobileNumber,
-          email: form.email,
-          password: form.password,
+          klinik: form.klinik,
+          doctor: form.doctor,
+          date: form.date,
           uid: success.user.uid,
         };
 
-        FIREBASE.database()
-          .ref('users/' + success.user.uid + '/')
-          .set(data);
-
-        storeData('user', data);
-        navigation.replace('UploadPhoto', data);
+        storeData('user');
+        navigation.replace('MainApp');
       })
       .catch(err => {
         showError(err.message);
@@ -52,15 +51,25 @@ const Register = ({navigation}) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Gap height={16} />
           <Input
-            label="Nama Lengkap"
+            label="Nama Pasien"
             value={form.fullName}
-            placeholder="MASUKAN NAMA LENGKAP"
+            placeholder="MASUKAN NAMA LENGKAP PASIEN"
             placeholderTextColor="#00A2E9"
             onChangeText={value => setForm('fullName', value)}
           />
           <Gap height={16} />
           <Input
-            label="Nomor Handphone"
+            label="Tanggal Lahir"
+            value={form.wetone}
+            keyboardType="numeric"
+            onChangeText={value => setForm('wetone', value)}
+            keyboardType="numeric"
+            placeholder="MASUKAN Tanggal Lahir"
+            placeholderTextColor="#00A2E9"
+          />
+          <Gap height={16} />
+          <Input
+            label="No Whatsapp"
             value={form.mobileNumber}
             keyboardType="numeric"
             onChangeText={value => setForm('mobileNumber', value)}
@@ -70,39 +79,39 @@ const Register = ({navigation}) => {
           />
           <Gap height={16} />
           <Input
-            label="Email"
-            value={form.email}
-            placeholder="MASUKAN EMAIL ANDA"
+            label="Tujuan Klinik"
+            value={form.klinik}
+            placeholder="MASUKAN Tujuan Klinik"
             placeholderTextColor="#00A2E9"
-            onChangeText={value => setForm('email', value)}
+            onChangeText={value => setForm('klinik', value)}
           />
           <Gap height={16} />
           <Input
-            label="Password"
-            value={form.password}
-            placeholder="MASUKAN PASSWORD"
+            label="Tujuan Dokter"
+            value={form.doctor}
+            placeholder="MASUKAN Tujuan Dokter"
             placeholderTextColor="#00A2E9"
-            onChangeText={value => setForm('password', value)}
-            secureTextEntry={!showPassword}
-            right={!showPassword ? <IcEye /> : <IcEyeSlash />}
-            onPressRight={() => setShowPassword(!showPassword)}
+            onChangeText={value => setForm('doctor', value)}
           />
           <Gap height={16} />
-          <Button title="(REGISTER)" textColor="white" onPress={onContinue} />
+          <Input
+            label="Tanggal & Jam Kedatangan"
+            value={form.date}
+            placeholder="MASUKAN Tanggal dan jam kedatangan"
+            placeholderTextColor="#00A2E9"
+            onChangeText={value => setForm('date', value)}
+          />
+          <Gap height={16} />
+          <Button title="(Kirim)" textColor="white" onPress={onContinue} />
 
           <Gap height={30} />
-          <Button
-            type="secondary"
-            title="Sudah punya Akun (LOGIN)"
-            onPress={() => navigation.replace('Login')}
-          />
         </ScrollView>
       </View>
     </View>
   );
 };
 
-export default Register;
+export default Appoitment;
 
 const styles = StyleSheet.create({
   page: {

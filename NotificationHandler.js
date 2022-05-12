@@ -1,4 +1,5 @@
 import PushNotification from 'react-native-push-notification';
+import FIREBASE from './src/config/FIREBASE';
 
 class NotificationHandler {
   onNotification(notification) {
@@ -11,18 +12,25 @@ class NotificationHandler {
 
   onRegister(token) {
     console.log('NotificationHandler:', token);
-
+    FIREBASE.auth().onAuthStateChanged(user => {
+      console.log('USER', user);
+      if (user) {
+        FIREBASE.database().ref(`users/${user.uid}`).update({
+          fcmToken: token.token,
+        });
+      }
+    });
     if (typeof this._onRegister === 'function') {
       this._onRegister(token);
     }
   }
 
   onAction(notification) {
-    console.log ('Notification action received:');
+    console.log('Notification action received:');
     console.log(notification.action);
     console.log(notification);
 
-    if(notification.action === 'Yes') {
+    if (notification.action === 'Yes') {
       PushNotification.invokeApp(notification);
     }
   }
@@ -31,7 +39,7 @@ class NotificationHandler {
   onRegistrationError(err) {
     console.log(err);
   }
-  
+
   attachRegister(handler) {
     this._onRegister = handler;
   }

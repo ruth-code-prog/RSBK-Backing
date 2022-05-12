@@ -7,6 +7,7 @@ import 'react-native-gesture-handler';
 import store from './redux/store';
 import {Provider, useSelector} from 'react-redux';
 import FlashMessage from 'react-native-flash-message';
+import { Loading } from "./components";
 
 LogBox.ignoreLogs(['Setting a timer']);
 
