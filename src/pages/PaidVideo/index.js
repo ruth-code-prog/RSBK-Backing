@@ -9,6 +9,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  RefreshControl,
 } from 'react-native';
 import {VideoPlayer} from '../../components';
 import FIREBASE from '../../config/FIREBASE';
@@ -21,6 +22,8 @@ const PaidVideo = ({navigation}) => {
 
   const [videoLink, setVideoLink] = useState('');
   const [videoModal, setVideoModal] = useState('');
+
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const [selectedLink, setSelectedLink] = useState(null);
   const dispatch = useDispatch();
@@ -38,12 +41,19 @@ const PaidVideo = ({navigation}) => {
         dispatch({type: 'SET_LOADING', value: false});
         const snapshotVal = res.val();
         const arr = snapshotVal.filter(val => val);
+        setRefreshing(true);
         setData(arr);
         setAllData(arr);
+        wait(2000).then(() => setRefreshing(false));
+        setLoading(false);
       })
       .catch(err => {
         console.error(err);
       });
+  };
+
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
   return (
@@ -53,6 +63,9 @@ const PaidVideo = ({navigation}) => {
       ) : (
         <FlatList
           keyExtractor={(_, index) => index.toString()}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={getData} />
+          }
           data={data}
           contentContainerStyle={styles.listContentContainer}
           renderItem={({item}) => (

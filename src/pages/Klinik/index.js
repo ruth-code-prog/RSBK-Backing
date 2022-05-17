@@ -9,6 +9,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking,
+  RefreshControl,
 } from "react-native";
 import {
   Gap,
@@ -23,6 +25,7 @@ const Klinik = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [allData, setAllData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   useEffect(() => {
     getData();
@@ -35,12 +38,19 @@ const Klinik = ({ navigation }) => {
       .then((res) => {
         const snapshotVal = res.val();
         const arr = snapshotVal.filter((val) => val);
+        setRefreshing(true);
         setData(arr);
         setAllData(arr);
+        wait(2000).then(() => setRefreshing(false));
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
   const handleFilter = (val) => {
@@ -54,13 +64,17 @@ const Klinik = ({ navigation }) => {
     }, 1500);
   };
 
+  const openKlinik = url => {
+    Linking.openURL('https://' + url);
+  };
+
   return (
     <View style={styles.pages}>
       <View style={{ padding: 20, paddingTop: 8 }}>
         <Input
           onChangeText={(val) => handleFilter(val)}
           label="Cari Klinik"
-          placeholder="Masukkan judul atau Nama Meeting Room"
+          placeholder="Masukkan Klinik"
         />
       </View>
       {loading ? (
@@ -68,10 +82,13 @@ const Klinik = ({ navigation }) => {
       ) : (
         <FlatList
           keyExtractor={(_, index) => index.toString()}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={getData} />
+          }
           data={data}
           contentContainerStyle={styles.listContentContainer}
           renderItem={({ item }) => (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => openKlinik(item.link)} key={item.id}>
               <Image source={{ uri: item?.image }} style={styles.thumbnail} />
               <Gap height={8} />
               <View>
@@ -103,7 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#112340',
   },
   listContentContainer: {
-    padding: 40,
+    padding: 14,
     // justifyContent: "space-between",
   },
   columnWrapperStyle: {
@@ -117,11 +134,12 @@ const styles = StyleSheet.create({
     width: Dimensions.get("screen").width / 2 - 28,
   },
   thumbnail: {
-    height: 140,
+    height: 180,
     width: "100%",
+    borderRadius: 14,
   },
   title: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     color: colors.primary,
   },

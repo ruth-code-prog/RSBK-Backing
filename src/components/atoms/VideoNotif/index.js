@@ -19,11 +19,6 @@ const VideoNotif = ({link, visible, onClose}) => {
 
   return (
     <>
-      <Button
-        style={styles.tube}
-        title={playing ? 'pause' : 'play'}
-        onPress={togglePlaying}
-      />
       <YoutubePlayer
         height={200}
         play={playing}

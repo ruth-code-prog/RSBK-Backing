@@ -5,6 +5,10 @@ import {
   View,
   TextInput,
   ActivityIndicator,
+  TouchableOpacity,
+  Text,
+  Alert,
+  Image,
 } from 'react-native';
 import IcEye from '../../assets/icons/eye.svg';
 import IcEyeSlash from '../../assets/icons/eye-slash.svg';
@@ -13,116 +17,220 @@ import FIREBASE from '../../config/FIREBASE';
 import {colors, showError, storeData, useForm} from '../../utils';
 import {InputData, Button, Header, Gap, Input} from '../../components';
 
-const Appoitment = ({navigation}) => {
-  const [form, setForm] = useForm({
-    fullName: '',
-    wetone: '',
-    mobileNumber: '',
-    klinik: '',
-    doctor: '',
-    date: '',
-  });
+export default class Appoitement extends Component {
+  constructor(props) {
+    super(props);
 
-  const onContinue = () => {
-    FIREBASE.database()
-    .pushData(klinik)
-      .then(success => {
-        setForm('reset');
-        const data = {
-          fullName: form.fullName,
-          wetone: form.wetone,
-          mobileNumber: form.mobileNumber,
-          klinik: form.klinik,
-          doctor: form.doctor,
-          date: form.date,
-          uid: success.user.uid,
-        };
+    this.state = {
+      namaAkun: '',
+      nama: '',
+      tanggalLahir: '',
+      noWa: '',
+      penjamin: '',
+      klinik: '',
+      dokter: '',
+      tanggalKehadiran: '',
+    };
+  }
 
-        storeData('user');
-        navigation.replace('MainApp');
-      })
-      .catch(err => {
-        showError(err.message);
-      });
+  onChangeText = (namaState, value) => {
+    this.setState({
+      [namaState]: value,
+    });
   };
-  return (
-    <View style={styles.page}>
-      <View style={styles.content}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Gap height={16} />
-          <Input
-            label="Nama Pasien"
-            value={form.fullName}
-            placeholder="MASUKAN NAMA LENGKAP PASIEN"
-            placeholderTextColor="#00A2E9"
-            onChangeText={value => setForm('fullName', value)}
-          />
-          <Gap height={16} />
-          <Input
-            label="Tanggal Lahir"
-            value={form.wetone}
-            keyboardType="numeric"
-            onChangeText={value => setForm('wetone', value)}
-            keyboardType="numeric"
-            placeholder="MASUKAN Tanggal Lahir"
-            placeholderTextColor="#00A2E9"
-          />
-          <Gap height={16} />
-          <Input
-            label="No Whatsapp"
-            value={form.mobileNumber}
-            keyboardType="numeric"
-            onChangeText={value => setForm('mobileNumber', value)}
-            keyboardType="numeric"
-            placeholder="MASUKAN NOMOR HANDHPONE"
-            placeholderTextColor="#00A2E9"
-          />
-          <Gap height={16} />
-          <Input
-            label="Tujuan Klinik"
-            value={form.klinik}
-            placeholder="MASUKAN Tujuan Klinik"
-            placeholderTextColor="#00A2E9"
-            onChangeText={value => setForm('klinik', value)}
-          />
-          <Gap height={16} />
-          <Input
-            label="Tujuan Dokter"
-            value={form.doctor}
-            placeholder="MASUKAN Tujuan Dokter"
-            placeholderTextColor="#00A2E9"
-            onChangeText={value => setForm('doctor', value)}
-          />
-          <Gap height={16} />
-          <Input
-            label="Tanggal & Jam Kedatangan"
-            value={form.date}
-            placeholder="MASUKAN Tanggal dan jam kedatangan"
-            placeholderTextColor="#00A2E9"
-            onChangeText={value => setForm('date', value)}
-          />
-          <Gap height={16} />
-          <Button title="(Kirim)" textColor="white" onPress={onContinue} />
 
-          <Gap height={30} />
+  onSubmit = () => {
+    if (
+      this.state.namaAkun &&
+      this.state.nama &&
+      this.state.tanggalLahir &&
+      this.state.noWa &&
+      this.state.penjamin &&
+      this.state.klinik &&
+      this.state.dokter &&
+      this.state.tanggalKehadiran
+    ) {
+      const appoitmentReferensi = FIREBASE.database().ref('appoitment');
+      const appoitment = {
+        namaAkun: this.state.namaAkun,
+        nama: this.state.nama,
+        tanggalLahir: this.state.tanggalLahir,
+        noWa: this.state.noWa,
+        penjamin: this.state.penjamin,
+        klinik: this.state.klinik,
+        dokter: this.state.dokter,
+        tanggalKehadiran: this.state.tanggalKehadiran,
+      };
+
+      appoitmentReferensi
+        .push(appoitment)
+        .then(data => {
+          Alert.alert(
+            'Sukses',
+            'Appoitment berhasil di simpan, Our Staff `ll send you a confirmation via whatsapp',
+          );
+          this.props.navigation.replace('MainApp');
+        })
+        .catch(error => {
+          console.log('Error : ', error);
+        });
+    } else {
+      Alert.alert('Error', 'Form wajib di isi semua');
+    }
+  };
+
+  render() {
+    return (
+      <View>
+        <View
+          style={{
+            paddingHorizontal: 16,
+            backgroundColor: '#112340',
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingTop: 10,
+            }}>
+            <Image
+              source={require('../../assets/logo.png')}
+              style={{
+                width: 50,
+                height: 50,
+              }}
+              resizeMode="contain"
+            />
+          </View>
+          <View
+            style={{
+              color: '#FFFFFF',
+              fontSize: 20,
+              fontWeight: 'bold',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingBottom: 20,
+            }}>
+            <Text
+              style={{
+                color: '#FFFFFF',
+                fontSize: 20,
+              }}>
+              Appoitment Rawat Jalan
+            </Text>
+          </View>
+        </View>
+
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
+            <ScrollView style={styles.pages}>
+              <InputData
+                label="Account Name (Cek di Card Owner Antrian Klinik)"
+                placeholder="Masukkan Account Name Premium Anda"
+                onChangeText={this.onChangeText}
+                value={this.state.namaAkun}
+                namaState="namaAkun"
+              />
+              <Gap height={10} />
+              <InputData
+                label="Nama Pasien (Nama Anda/ Nama keluarga Anda)"
+                placeholder="Masukkan Nama Pasien"
+                onChangeText={this.onChangeText}
+                value={this.state.nama}
+                namaState="nama"
+              />
+              <Gap height={10} />
+              <InputData
+                label="Tanggal Lahir Pasien"
+                placeholder="Masukkan Tanggal Lahir Pasien"
+                onChangeText={this.onChangeText}
+                value={this.state.tanggalLahir}
+                namaState="tanggalLahir"
+              />
+              <Gap height={10} />
+              <InputData
+                label="No WhatsApp yang bisa di hubungi"
+                placeholder="Masukkan No Whatsapp"
+                keyboardType="number-pad"
+                onChangeText={this.onChangeText}
+                value={this.state.noWa}
+                namaState="noWa"
+              />
+              <Gap height={10} />
+              <InputData
+                label="Penjamin"
+                placeholder="Umum/ Assuransi/ Mitra"
+                isTextArea={true}
+                onChangeText={this.onChangeText}
+                value={this.state.penjamin}
+                namaState="penjamin"
+              />
+              <Gap height={10} />
+              <InputData
+                label="Klinik Yang di tuju"
+                placeholder="Masukkan klinik yang di tuju"
+                isTextArea={true}
+                onChangeText={this.onChangeText}
+                value={this.state.klinik}
+                namaState="klinik"
+              />
+              <Gap height={10} />
+              <InputData
+                label="Dokter yang di tuju"
+                placeholder="Masukkan Dokter yang di tuju"
+                isTextArea={true}
+                onChangeText={this.onChangeText}
+                value={this.state.dokter}
+                namaState="dokter"
+              />
+              <Gap height={10} />
+              <InputData
+                label="Tanggal & Waktu (Jam) Kehadiran"
+                placeholder="Masukkan Tanggal dan Jam kehadiran"
+                isTextArea={true}
+                onChangeText={this.onChangeText}
+                value={this.state.tanggalKehadiran}
+                namaState="tanggalKehadiran"
+              />
+              <Gap height={10} />
+              <TouchableOpacity
+                style={styles.tombol}
+                onPress={() => this.onSubmit()}>
+                <Text style={styles.textTombol}>KIRIM</Text>
+              </TouchableOpacity>
+              <Gap height={100} />
+            </ScrollView>
+          </View>
         </ScrollView>
       </View>
-    </View>
-  );
-};
-
-export default Appoitment;
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  page: {
-    flex: 1,
+  container: {
     backgroundColor: '#112340',
-    paddingLeft: 10,
-    paddingTop: 12,
+    flex: 1,
   },
-  content: {padding: 40, paddingTop: 0},
-  searchInput: {
-    color: '#00A2E9',
+  pages: {
+    margin: 10,
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#112340',
+    borderRadius: 10,
+  },
+  tombol: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  textTombol: {
+    color: 'white',
     fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 16,
   },
 });

@@ -39,9 +39,11 @@ const styles = StyleSheet.create({
   container: {flexDirection: 'row', flex: 1},
   avatar: {width: 46, height: 46, borderRadius: 46 / 2, marginRight: 12},
   name: {
-    fontSize: 16,
+    fontSize: 20,
+    fontWeight: 'bold',
     fontFamily: fonts.primary[600],
-    color: '#E5B654',
+    color: '#F8C471',
+    fontStyle: 'italic',
     textTransform: 'capitalize',
     textAlign: 'center',
   },

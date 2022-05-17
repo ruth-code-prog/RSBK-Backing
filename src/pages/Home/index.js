@@ -1,5 +1,12 @@
-import React, {Component, useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import React, {Component, useRef, useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPlus, faUser} from '@fortawesome/free-solid-svg-icons';
 import FIREBASE from '../../config/FIREBASE';
@@ -9,17 +16,21 @@ import RunningText from '../RunningText';
 import Notif from '../Notif';
 import Developer from '../Developer';
 import Splash from '../Splash';
-import {PopupPoint} from '../../components';
+import {PopupPoint, Loading} from '../../components';
 import Jadwal from '../Jadwal';
 import Map from '../Map';
 import Voucher from '../Voucher';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
+import CardAntrian from '../CardAntrian';
 
 const Home = ({navigation}) => {
   const [pointPopup, setPointPopup] = useState(false);
   const [banner, setBanner] = useState([]);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const pagesScrollRef = useRef(null);
 
   useEffect(() => {
     getImage();
@@ -37,21 +48,48 @@ const Home = ({navigation}) => {
     FIREBASE.database()
       .ref('banner')
       .once('value', snapshot => {
+        setRefreshing(true);
         dispatch({type: 'SET_LOADING', value: false});
         setBanner(snapshot.val());
       });
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+    setLoading(false);
+  };
+
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
   return (
     <View style={styles.page}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <RunningText />
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            pagesScrollRef?.current?.scrollTo({
+              y: 0,
+              x: 0,
+              animated: true,
+            });
+          }}
+          activeOpacity={0.8}>
+          <Text style={styles.headerTitle}>BAYUKARTA MOBILE APP</Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView
+        ref={pagesScrollRef}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={getBanner} />
+        }>
         <Carousel />
-
+        <RunningText />
         <Text style={styles.subtitle}>Layanan Online RS.Bayukarta</Text>
         <Headline />
         <Jadwal />
         <Voucher data={banner} />
+        <Text style={styles.subtitle}>Card Antrian Klinik</Text>
+        <CardAntrian />
         <Map />
         <Developer />
         <Text style={styles.version}>Bayukarta Mobile App</Text>
@@ -91,13 +129,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#FBFCFC',
-    textAlign: "center",
+    textAlign: 'center',
   },
   version2: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#FBFCFC',
-    textAlign: "center",
+    textAlign: 'center',
     paddingBottom: 40,
   },
   listPasien: {
@@ -145,5 +183,17 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
+  },
+  headerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 60,
+    backgroundColor: '#112340',
+  },
+  headerTitle: {
+    fontSize: 24,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    letterSpacing: 2,
   },
 });

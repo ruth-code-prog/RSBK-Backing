@@ -192,11 +192,6 @@ const Sukses = () => {
         showsVerticalScrollIndicator={false}>
         <Text style={styles.point}> Sampurasun</Text>
         <HomeProfile profile={profile} />
-        <Text style={styles.point}>
-          {' '}
-          Estimasi Biaya Rawat Anda:
-          {CurrencyFormatter(userHomeData !== null ? userHomeData.estimasi : 0)}
-        </Text>
         <Gap height={20} />
         {imageData?.map((item, index) => (
           <ImageLoading index={index} key={index} item={item} />
@@ -217,10 +212,11 @@ const Sukses = () => {
           title="User Input Image"
           style={{width: '100%'}}
         />
+        <Gap height={10} />
         <View style={styles.image}>
           <TouchableOpacity onPress={() => navigation.navigate('Appoitment')}>
             <Image
-              source={require('../../assets/logOut.png')}
+              source={require('../../assets/Appo.png')}
               style={styles.chat}
               resizeMode={'contain'}
             />

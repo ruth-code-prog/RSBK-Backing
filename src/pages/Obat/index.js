@@ -9,23 +9,24 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {Gap} from '../../components';
 import moment from 'moment';
 import localization from 'moment/locale/id';
 import Klinik from '../Klinik';
-import CardAntrian from '../CardAntrian';
 
 import VideoNotif from '../../components/atoms/VideoNotif';
 import FIREBASE from '../../config/FIREBASE';
 import {colors} from '../../utils';
 
-const Obat = () => {
+const Obat = ({navigation}) => {
   const [data, setData] = useState([]);
   const [modalImage, setModalImage] = useState(false);
   const [loading, setLoading] = useState(true);
   const [indexActive, setIndexActive] = useState(0);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const closeModal = () => {
     if (modalImage) {
@@ -50,14 +51,20 @@ const Obat = () => {
             url: val[1],
           });
         });
-
+        setRefreshing(true);
         setData(arr);
+        setLoading(false);
+        wait(2000).then(() => setRefreshing(false));
         setLoading(false);
       })
       .catch(err => {
         console.error(err);
         setLoading(false);
       });
+  };
+
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
   useEffect(() => {
@@ -67,15 +74,13 @@ const Obat = () => {
   return (
     <View style={styles.page}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Gap height={10} />
-        <Text style={styles.title}>Card Nomor Antrian Klinik</Text>
-        <CardAntrian />
-        <Text style={styles.title}>No Antrian Klinik Yang Sudah Terlayani</Text>
+        <Gap height={20} />
+        <Text style={styles.title}>Nomor Antrian Klinik Yang Sudah Terlayani</Text>
         <Text style={styles.subtitle}>(Pasien UMUM, Mitra & Asuransi)</Text>
         <Text style={styles.date}>Waktu Anda Berharga {tanggal.format('LLLL, a')}</Text>
         <Klinik />
-        
-        <Text style={styles.title}>Supported By Alo Care Apps</Text>
+        <Gap height={20} />
+        <Text style={styles.title}>Supported By Alo Care Mobile App</Text>
         <Gap height={20} />
         <VideoNotif />
         <Gap height={30} />
@@ -88,6 +93,9 @@ const Obat = () => {
         <Gap height={20} />
         <FlatList
           data={data}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={getNotifImage} />
+          }
           keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{paddingHorizontal: 20}}
           ItemSeparatorComponent={() => <Gap height={20} />}
@@ -142,7 +150,7 @@ const styles = StyleSheet.create({
     marginBottom: 100,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     marginTop: 10,
     color: '#FBFCFC',

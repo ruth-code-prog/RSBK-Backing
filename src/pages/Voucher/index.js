@@ -53,7 +53,7 @@ const Voucher = ({data}) => {
             style={styles.user}
             resizeMode={'contain'}
           />
-          <Text style={styles.member}>Daftar/Masuk</Text>
+          <Text style={styles.member}>Gratis~Daftar/Masuk</Text>
           <Text style={styles.member}> Akun Premium</Text>
         </TouchableOpacity>
       </View>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     // flex: 1,
-    paddingTop: 4,
+    paddingTop: 2,
   },
   background: {},
   user: {
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     width: 120,
     // width: Dimensions.get('screen').width - 40,
     borderRadius: 20,
-    marginBottom: 20,
+    marginBottom: 10,
     // paddingLeft: 200,
   },
   rowCenter: {
