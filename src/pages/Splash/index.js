@@ -21,8 +21,10 @@ const Splash = ({navigation}) => {
   useEffect(() => {
     const unsubscribe = FIREBASE.auth().onAuthStateChanged(user => {
       setTimeout(() => {
-        {
-          navigation.replace('MainApp');
+        if (user) {
+          navigation.replace("MainApp");
+        } else {
+          navigation.replace("Register");
         }
       }, 3000);
       PushNotification.localNotification({

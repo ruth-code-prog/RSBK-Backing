@@ -31,23 +31,13 @@ const App = () => {
       </View>
 
       <View style={{marginLeft: 20}} />
-      <View style={styles.rowCenter}>
-        <TouchableOpacity onPress={() => navigation.navigate('Appoitment')}>
-          <Image
-            source={require('../../assets/Appo.png')}
-            style={styles.chat}
-            resizeMode={'contain'}
-          />
-          <Text style={styles.keluar}>Appoitment Klinik</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 22,
+    marginTop: 4,
     padding: 2,
     backgroundColor: '#112340',
     borderRadius: 20,
@@ -72,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 20,
+    paddingTop: 10,
   },
   chat: {
     width: 180,

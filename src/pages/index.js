@@ -10,6 +10,7 @@ import Video from './Video';
 import PenunjangUser from './PenunjangUser';
 import UploadPhoto from './UploadPhoto';
 import Appoitment from './Appoitment';
+import Jadwal from './Jadwal';
 
 export {
   Home,
@@ -24,4 +25,5 @@ export {
   PenunjangUser,
   UploadPhoto,
   Appoitment,
+  Jadwal,
 };

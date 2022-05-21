@@ -13,6 +13,7 @@ import {
   Video,
   PenunjangUser,
   UploadPhoto,
+  Jadwal,
 } from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigator} from '../components';
@@ -48,7 +49,7 @@ const Router = () => {
       <Stack.Screen
         name="Register"
         component={Register}
-        options={{headerShown: true}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Sukses"
@@ -83,6 +84,11 @@ const Router = () => {
       <Stack.Screen
         name="Appoitment"
         component={Appoitment}
+        options={{headerShown: false}}
+      />
+        <Stack.Screen
+        name="Jadwal"
+        component={Jadwal}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

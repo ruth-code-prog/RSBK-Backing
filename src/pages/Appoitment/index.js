@@ -102,21 +102,14 @@ export default class Appoitement extends Component {
               }}
               resizeMode="contain"
             />
-          </View>
-          <View
-            style={{
-              color: '#FFFFFF',
-              fontSize: 20,
-              fontWeight: 'bold',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingBottom: 20,
-            }}>
             <Text
               style={{
                 color: '#FFFFFF',
                 fontSize: 20,
+                alignItems: 'center',
+                justifyContent: 'center',
+                alignText: 'center',
+                paddingRight: 40,
               }}>
               Appoitment Rawat Jalan
             </Text>
@@ -127,16 +120,17 @@ export default class Appoitement extends Component {
           <View style={styles.container}>
             <ScrollView style={styles.pages}>
               <InputData
-                label="Account Name (Cek di Card Owner Antrian Klinik)"
-                placeholder="Masukkan Account Name Premium Anda"
+                label="Nama Akun"
+                placeholder="Masukkan Nama Akun"
                 onChangeText={this.onChangeText}
                 value={this.state.namaAkun}
                 namaState="namaAkun"
               />
               <Gap height={10} />
               <InputData
-                label="Nama Pasien (Nama Anda/ Nama keluarga Anda)"
-                placeholder="Masukkan Nama Pasien"
+                label="Nama Pasien"
+                placeholder="Masukkan Nama Pasien (Nama Anda/ Nama keluarga Anda)"
+                isTextArea={true}
                 onChangeText={this.onChangeText}
                 value={this.state.nama}
                 namaState="nama"
@@ -161,7 +155,7 @@ export default class Appoitement extends Component {
               <Gap height={10} />
               <InputData
                 label="Penjamin"
-                placeholder="Umum/ Assuransi/ Mitra"
+                placeholder="Umum/ Asuransi/ Mitra (Untuk Asuransi & Mitra Optional: Nomor Kartu Asuransi/ Mitra)"
                 isTextArea={true}
                 onChangeText={this.onChangeText}
                 value={this.state.penjamin}
@@ -222,7 +216,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   tombol: {
-    backgroundColor: 'green',
+    backgroundColor: '#0BCAD4',
     padding: 10,
     borderRadius: 5,
     marginTop: 10,

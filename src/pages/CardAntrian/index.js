@@ -85,9 +85,8 @@ const CardAntrian = () => {
           style={{width: 50, height: 50}}
           resizeMode="contain"
         />
-        <Text style={{color: '#000000', fontWeight: 'bold'}}>Card Owner</Text>
-        <Text style={{color:'#1908DD', fontWeight: 'bold'}}>Account Name: {profile?.fullName}</Text>
-        <Text style={{color: '#000000'}}>Nomor Antrian</Text>
+        <Text style={{color:'#1908DD', fontWeight: 'bold'}}>Nama Akun: {profile?.fullName}</Text>
+        <Text style={{color: '#000000'}}>Nomor Antrian Appoitment Anda:</Text>
         <Text
           style={{
             color: '#000000',
@@ -126,11 +125,15 @@ const CardAntrian = () => {
         </Text>
         <View style={{flexDirection: 'row'}}>
           <View style={{marginTop: 4}}>
-            <Text style={{color:'#1908DD' , fontWeight: 'bold', fontSize: 12}}>
-              Pastikan Sudah Mendaftar Akun Premium
-            </Text>
             <Text style={{color: '#1908DD', fontStyle: 'italic', fontSize: 12}}>
-              (Privilege Card= Pasien Umum, Mitra & Assuransi)
+            <TouchableOpacity onPress={() => navigation.navigate('Sukses')}>
+              <Image
+                source={require('../../assets/user.png')}
+                style={styles.user}
+                resizeMode={'contain'}
+              />
+              <Text style={styles.member}>Akun Premium</Text>
+            </TouchableOpacity>
             </Text>
           </View>
 
@@ -140,14 +143,14 @@ const CardAntrian = () => {
               alignItems: 'flex-end',
               flex: 1,
             }}>
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Image
-                source={require('../../assets/user.png')}
-                style={styles.user}
-                resizeMode={'contain'}
-              />
-              <Text style={styles.member}> Akun Premium</Text>
-            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Appoitment')}>
+          <Image
+            source={require('../../assets/Appo.png')}
+            style={styles.chat}
+            resizeMode={'contain'}
+          />
+          <Text style={styles.keluar}>Appoitment Klinik</Text>
+        </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -157,8 +160,8 @@ const CardAntrian = () => {
 
 const styles = StyleSheet.create({
   user: {
-    height: 60,
-    width: 60,
+    height: 70,
+    width: 70,
     // width: Dimensions.get('screen').width - 40,
     borderRadius: 20,
     marginBottom: 2,
@@ -174,6 +177,18 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  chat: {
+    width: 68,
+    height: 68,
+    resizeMode: 'contain',
+    marginBottom: 2,
+    borderRadius: 20,
+  },
+  keluar: {
+    textAlign: 'center',
+    color: '#000000',
+    fontWeight: 'bold',
   },
 });
 

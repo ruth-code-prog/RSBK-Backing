@@ -10,129 +10,138 @@ import {
   Image,
   ActivityIndicator,
   RefreshControl,
+  Dimensions,
+  Linking,
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {Gap} from '../../components';
 import moment from 'moment';
 import localization from 'moment/locale/id';
-import Klinik from '../Klinik';
+import Gambar from '../Gambar';
+import TextKlinik from '../TextKlinik';
 
 import VideoNotif from '../../components/atoms/VideoNotif';
 import FIREBASE from '../../config/FIREBASE';
 import {colors} from '../../utils';
+import {Header, Input, VideoPlayer} from '../../components';
+import {useDispatch} from 'react-redux';
 
 const Obat = ({navigation}) => {
   const [data, setData] = useState([]);
+  const [allData, setAllData] = useState([]);
   const [modalImage, setModalImage] = useState(false);
   const [loading, setLoading] = useState(true);
   const [indexActive, setIndexActive] = useState(0);
   const [refreshing, setRefreshing] = React.useState(false);
+  const dispatch = useDispatch();
 
-  const closeModal = () => {
-    if (modalImage) {
-      setModalImage(false)
-    }
-  }
+  useEffect(() => {
+    getData();
+  }, []);
 
-  moment.updateLocale('id', localization);
-
-  let tanggal = moment().locale('id');
-
-  const getNotifImage = () => {
+  const getData = () => {
+    dispatch({type: 'SET_LOADING', value: true});
     FIREBASE.database()
-      .ref('notifImage')
+      .ref('cardSolved')
       .once('value')
-      .then(snapshot => {
-        const dataSnapshot = snapshot.val() || {};
-        let arr = [];
-
-        Object.entries(dataSnapshot).map(val => {
-          arr.push({
-            url: val[1],
-          });
-        });
+      .then(res => {
+        const snapshotVal = res.val();
+        const arr = snapshotVal.filter(val => val);
+        dispatch({type: 'SET_LOADING', value: false});
         setRefreshing(true);
         setData(arr);
-        setLoading(false);
+        setAllData(arr);
         wait(2000).then(() => setRefreshing(false));
         setLoading(false);
       })
       .catch(err => {
         console.error(err);
-        setLoading(false);
       });
   };
+
+  const handleFilter = val => {
+    setLoading(true);
+    let arr = [...allData];
+    var searchRegex = new RegExp(val, 'i');
+    arr = arr.filter(item => searchRegex?.test(item?.title));
+    setData(arr);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  };
+
+  const openKlinik = url => {
+    Linking.openURL('https://' + url);
+  };
+
+  moment.updateLocale('id', localization);
+
+  let tanggal = moment().locale('id');
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
-  useEffect(() => {
-    getNotifImage();
-  }, []);
-
   return (
     <View style={styles.page}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Gap height={20} />
-        <Text style={styles.title}>Nomor Antrian Klinik Yang Sudah Terlayani</Text>
-        <Text style={styles.subtitle}>(Pasien UMUM, Mitra & Asuransi)</Text>
-        <Text style={styles.date}>Waktu Anda Berharga {tanggal.format('LLLL, a')}</Text>
-        <Klinik />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={getData} />
+        }>
+        <TextKlinik />
+        <Text style={styles.title}>
+          Monitoring Antrian Dokter
+        </Text>
+        <Text style={styles.penjamin}>(Pasien UMUM, Mitra & Asuransi)</Text>
+        <Text style={styles.date}>
+          Waktu Anda Berharga {tanggal.format('LLLL, a')}
+        </Text>
+        <View style={styles.pages}>
+          <View style={{padding: 20, paddingTop: 8}}>
+            <Input
+              onChangeText={val => handleFilter(val)}
+              label="Cari Klinik"
+              placeholder="Masukkan Klinik"
+            />
+          </View>
+          {loading ? (
+            <ActivityIndicator size={24} color={colors.primary} />
+          ) : (
+            <FlatList
+              keyExtractor={(_, index) => index.toString()}
+              data={data}
+              contentContainerStyle={styles.listContentContainer}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  onPress={() => openKlinik(item.link)}
+                  key={item.id}>
+                  <Image source={{uri: item?.image}} style={styles.thumbnail} />
+                  <Gap height={8} />
+                  <View>
+                    <Text style={styles.subtitle}>{item?.title}</Text>
+                    <Gap height={4} />
+                    <Text
+                      numberOfLines={2}
+                      lineBreakMode="tail"
+                      style={styles.subtitle}>
+                      No Sedang diLayani= {item?.body}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+              numColumns={2}
+              columnWrapperStyle={styles.columnWrapperStyle}
+            />
+          )}
+        </View>
         <Gap height={20} />
         <Text style={styles.title}>Supported By Alo Care Mobile App</Text>
         <Gap height={20} />
         <VideoNotif />
-        <Gap height={30} />
-        <Text style={styles.title}>
-          More Information
-        </Text>
-        <Text style={styles.subtitle}>
-          Alert! "Zoom In: Click Image", "Zoom Out: Swipe Down Image/ Back Button"
-        </Text>
         <Gap height={20} />
-        <FlatList
-          data={data}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={getNotifImage} />
-          }
-          keyExtractor={(_, index) => index.toString()}
-          contentContainerStyle={{paddingHorizontal: 20}}
-          ItemSeparatorComponent={() => <Gap height={20} />}
-          ListFooterComponent={() => <Gap height={200} />}
-          renderItem={({item, index}) => (
-            <View style={{alignItems: 'center'}}>
-              <TouchableOpacity
-                onPress={() => {
-                  setModalImage(true);
-                  setIndexActive(index);
-                }}>
-                <Image
-                  width={200}
-                  height={200}
-                  style={styles.image}
-                  source={{uri: item?.url}}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-          ListEmptyComponent={() =>
-            loading ? (
-              <View style={{alignItems: 'center'}}>
-                <ActivityIndicator size={40} color={colors.primary} />
-              </View>
-            ) : null
-          }
-        />
+        <Gambar />
       </ScrollView>
-      <Modal visible={modalImage} transparent onRequestClose={closeModal}>
-        <ImageViewer
-          index={indexActive}
-          enableSwipeDown
-          onSwipeDown={() => setModalImage(false)}
-          imageUrls={data}
-        />
-      </Modal>
     </View>
   );
 };
@@ -165,7 +174,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     textAlign: 'center',
   },
-  subtitle: {
+  penjamin: {
     fontSize: 12,
     fontWeight: 'bold',
     marginTop: 10,
@@ -189,5 +198,33 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
     borderRadius: 20,
+  },
+  listContentContainer: {
+    padding: 10,
+    // justifyContent: "space-between",
+  },
+  columnWrapperStyle: {
+    justifyContent: 'space-between',
+  },
+  videoContainer: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 8,
+    borderRadius: 5,
+    width: Dimensions.get('screen').width / 2 - 28,
+  },
+  thumbnail: {
+    height: 180,
+    width: '100%',
+    borderRadius: 14,
+  },
+  subtitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.primary,
+  },
+  body: {
+    fontSize: 12,
+    color: colors.secondary,
   },
 });

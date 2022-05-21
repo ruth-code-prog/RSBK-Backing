@@ -5,6 +5,8 @@ import {
   View,
   TextInput,
   ActivityIndicator,
+  Text,
+  Image
 } from 'react-native';
 import IcEye from '../../assets/icons/eye.svg';
 import IcEyeSlash from '../../assets/icons/eye-slash.svg';
@@ -50,7 +52,19 @@ const Register = ({navigation}) => {
     <View style={styles.page}>
       <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Gap height={16} />
+        <Gap height={20} />
+        <Image
+              source={require('../../assets/logo.png')}
+              style={{
+                width: 50,
+                height: 50,
+              }}
+              resizeMode="contain"
+            />
+        <Text style={styles.title}>
+         Bayukarta Mobile App Register
+        </Text>
+          <Gap height={24} />
           <Input
             label="Nama Lengkap"
             value={form.fullName}
@@ -64,7 +78,6 @@ const Register = ({navigation}) => {
             value={form.mobileNumber}
             keyboardType="numeric"
             onChangeText={value => setForm('mobileNumber', value)}
-            keyboardType="numeric"
             placeholder="MASUKAN NOMOR HANDHPONE"
             placeholderTextColor="#00A2E9"
           />
@@ -116,4 +129,9 @@ const styles = StyleSheet.create({
     color: '#00A2E9',
     fontWeight: 'bold',
   },
+  title: {
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 18,
+  }
 });

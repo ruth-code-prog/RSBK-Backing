@@ -38,12 +38,12 @@ const PaidVideo = ({navigation}) => {
       .ref('video-informasi/')
       .once('value')
       .then(res => {
-        dispatch({type: 'SET_LOADING', value: false});
         const snapshotVal = res.val();
         const arr = snapshotVal.filter(val => val);
         setRefreshing(true);
         setData(arr);
         setAllData(arr);
+        dispatch({type: 'SET_LOADING', value: false});
         wait(2000).then(() => setRefreshing(false));
         setLoading(false);
       })

@@ -1,12 +1,5 @@
 import React, {Component, useRef, useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  RefreshControl,
-} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPlus, faUser} from '@fortawesome/free-solid-svg-icons';
 import FIREBASE from '../../config/FIREBASE';
@@ -17,7 +10,6 @@ import Notif from '../Notif';
 import Developer from '../Developer';
 import Splash from '../Splash';
 import {PopupPoint, Loading} from '../../components';
-import Jadwal from '../Jadwal';
 import Map from '../Map';
 import Voucher from '../Voucher';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -28,8 +20,6 @@ const Home = ({navigation}) => {
   const [pointPopup, setPointPopup] = useState(false);
   const [banner, setBanner] = useState([]);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const [refreshing, setRefreshing] = React.useState(false);
   const pagesScrollRef = useRef(null);
 
   useEffect(() => {
@@ -48,17 +38,9 @@ const Home = ({navigation}) => {
     FIREBASE.database()
       .ref('banner')
       .once('value', snapshot => {
-        setRefreshing(true);
-        dispatch({type: 'SET_LOADING', value: false});
         setBanner(snapshot.val());
+        dispatch({type: 'SET_LOADING', value: false});
       });
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-    setLoading(false);
-  };
-
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
   return (
@@ -76,19 +58,14 @@ const Home = ({navigation}) => {
           <Text style={styles.headerTitle}>BAYUKARTA MOBILE APP</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView
-        ref={pagesScrollRef}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={getBanner} />
-        }>
+      <ScrollView ref={pagesScrollRef} showsVerticalScrollIndicator={false}>
         <Carousel />
         <RunningText />
         <Text style={styles.subtitle}>Layanan Online RS.Bayukarta</Text>
         <Headline />
-        <Jadwal />
+        <Text style={styles.subtitle}>Jadwal Dokter</Text>
         <Voucher data={banner} />
-        <Text style={styles.subtitle}>Card Antrian Klinik</Text>
+        <Text style={styles.subtitle}>Akun & Antrian Klinik</Text>
         <CardAntrian />
         <Map />
         <Developer />

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, Image} from 'react-native';
 import IcEye from '../../assets/icons/eye.svg';
 import IcEyeSlash from '../../assets/icons/eye-slash.svg';
 import {Button, Gap, Input, Link} from '../../components';
@@ -32,8 +32,17 @@ const Login = ({navigation}) => {
   return (
     <View style={styles.page}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Gap height={40} />
-        <Text style={styles.title}>Masuk untuk Akses User RS.Bayukarta</Text>
+        <Gap height={20} />
+        <Image
+              source={require('../../assets/logo.png')}
+              style={{
+                width: 50,
+                height: 50,
+              }}
+              resizeMode="contain"
+            />
+        <Text style={styles.title}>Login Bayukarta Mobile App</Text>
+        <Gap height={22} />
         <Input
           label="Email Address"
           value={form.email}
@@ -73,10 +82,8 @@ export default Login;
 const styles = StyleSheet.create({
   page: {paddingHorizontal: 40, backgroundColor: '#112340', flex: 1},
   title: {
-    fontSize: 20,
+    fontWeight: 'bold',
     color: '#FFFFFF',
-    marginTop: 40,
-    marginBottom: 40,
-    maxWidth: 153,
-  },
+    fontSize: 18,
+  }
 });

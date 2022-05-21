@@ -47,14 +47,14 @@ const Voucher = ({data}) => {
       </Swiper>
       <View style={{marginLeft: 20}} />
       <View style={styles.rowCenter}>
-        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Jadwal')}>
           <Image
             source={require('../../assets/user.png')}
             style={styles.user}
             resizeMode={'contain'}
           />
-          <Text style={styles.member}>Gratis~Daftar/Masuk</Text>
-          <Text style={styles.member}> Akun Premium</Text>
+          <Text style={styles.member}>Jadwal</Text>
+          <Text style={styles.member}>Praktek Dokter</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   container: {
     // height: Dimensions.get('screen').height / 4,
     // width: Dimensions.get('screen').width - 2,
-    marginTop: 22,
+    marginTop: 10,
     padding: 10,
     backgroundColor: '#F8C471',
     borderRadius: 20,

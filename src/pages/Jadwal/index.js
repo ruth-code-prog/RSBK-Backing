@@ -12,21 +12,25 @@ import {
 } from 'react-native';
 import FIREBASE from '../../config/FIREBASE';
 import {JadwalCard} from '../../components';
+import {useDispatch} from 'react-redux';
 
 const Jadwal = props => {
   const [jadwals, setJadwals] = useState([]);
   const [jadwalsAll, setJadwalsAll] = useState([]);
   const [searchJadwalLoading, setSearchJadwalLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getJadwals();
   }, []);
 
   const getJadwals = () => {
+    dispatch({type: 'SET_LOADING', value: true});
     FIREBASE.database()
       .ref('jadwal')
       .on('value', res => {
         const arr = [...res.val()];
+        dispatch({type: 'SET_LOADING', value: false});
         setJadwals(arr.filter(val => val !== null));
         setJadwalsAll(arr.filter(val => val !== null));
       });
@@ -67,9 +71,8 @@ const Jadwal = props => {
         />
       </View>
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
         style={{marginTop: 10, paddingHorizontal: 2}}>
         {searchJadwalLoading ? (
           <ActivityIndicator
@@ -86,6 +89,8 @@ const Jadwal = props => {
               type="jadwal"
               key={index}
               item={item}
+              numColumns={2}
+              columnWrapperStyle={styles.columnWrapperStyle}
             />
           ))
         )}
@@ -99,7 +104,6 @@ const styles = StyleSheet.create({
   page: {
     flex: 1,
     backgroundColor: '#F8C471',
-    borderRadius: 10,
     paddingLeft: 10,
     paddingTop: 12,
   },
@@ -136,5 +140,8 @@ const styles = StyleSheet.create({
   },
   imageDok: {
     alignItems: 'center',
+  },
+  columnWrapperStyle: {
+    justifyContent: 'space-between',
   },
 });

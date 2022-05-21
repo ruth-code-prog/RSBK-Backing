@@ -13,18 +13,22 @@ const UploadPhoto = ({navigation, route}) => {
   const [photo, setPhoto] = useState(ILNullPhoto);
 
   const uploadPhoto = () => {
-    ImagePicker.openPicker({
-      width: 300,
+    ImagePicker.openCamera({
+      width: 400,
       height: 300,
       cropping: true,
       includeBase64: true,
-    }).then((image) => {
-      const source = {uri: image.path};
+    })
+      .then(image => {
+        const source = {uri: image.path};
 
-      setPhotoForDB(`data:${image.mime};base64,${image.data}`);
-      setPhoto(source);
-      setHasPhoto(true);
-    });
+        setPhotoForDB(`data:${image.mime};base64,${image.data}`);
+        setPhoto(source);
+        setHasPhoto(true);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const continuePage = () => {
@@ -37,9 +41,9 @@ const UploadPhoto = ({navigation, route}) => {
 
     storeData('user', data);
 
-    navigation.replace('Sukses');
+    navigation.replace('MainApp');
   };
-  
+
   return (
     <View style={styles.page}>
       <View style={styles.content}>
@@ -53,6 +57,8 @@ const UploadPhoto = ({navigation, route}) => {
           <Gap height={10} />
           <Text style={styles.verification}>Uploud Foto KTP Anda</Text>
           <Text style={styles.verification}> untuk proses Verifikasi Data</Text>
+          <Gap height={180} />
+          <Text style={styles.verification2}>Keamanan Data Digital di jamin Undang-Undang</Text>
         </View>
         <View>
           <Button
@@ -106,4 +112,13 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginTop: 4,
   },
+  verification2: {
+    fontSize: 16,
+    fontFamily: fonts.primary.normal,
+    textAlign: 'center',
+    color: '#FFFFFF',
+    marginTop: 4,
+    fontStyle: "italic",
+  },
 });
+

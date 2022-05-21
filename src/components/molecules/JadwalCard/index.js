@@ -28,11 +28,11 @@ const JadwalCard = ({item, type, onRemove, onPress, uid, jadwal, onAdd}) => {
     <View
       style={[
         {
-          height: Dimensions.get('screen').height / 1.5,
+          height: Dimensions.get('screen').height / 1.7,
           width: Dimensions.get('screen').width - 40,
           borderRadius: 10,
           marginRight: 10,
-          marginBottom: 24,
+          marginBottom: 16,
           marginTop: 20,
           backgroundColor: '#FFFFFF',
         },
@@ -44,7 +44,7 @@ const JadwalCard = ({item, type, onRemove, onPress, uid, jadwal, onAdd}) => {
         }}
         style={{
           width: Dimensions.get('screen').width - 40,
-          height: 320,
+          height: 280,
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
         }}

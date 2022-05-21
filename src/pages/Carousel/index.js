@@ -2,15 +2,18 @@ import React, {Component, useCallback, useEffect, useState} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import FIREBASE from '../../config/FIREBASE';
 import {BannerSlider} from '../../components';
+import {useDispatch} from 'react-redux';
 
 const Carousel = props => {
   const [banners, setBanners] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getBanners();
   }, []);
 
   const getBanners = () => {
+    dispatch({type: 'SET_LOADING', value: true});
     FIREBASE.database()
       .ref('desain_banner')
       .once('value')
@@ -19,6 +22,7 @@ const Carousel = props => {
         const filteredArr = arr.filter(val => val !== null);
         const newArr = filteredArr?.map(val => val?.image);
         setBanners(newArr);
+        dispatch({type: 'SET_LOADING', value: false});
       })
       .catch(err => {
         console.error(err);
