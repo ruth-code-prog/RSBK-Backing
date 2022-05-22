@@ -1,24 +1,20 @@
-import React, {Component, useCallback, useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  View,
-  TextInput,
-  ActivityIndicator,
-  TouchableOpacity,
-  Text,
   Alert,
   Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import IcEye from '../../assets/icons/eye.svg';
-import IcEyeSlash from '../../assets/icons/eye-slash.svg';
 
+import ImageCropPicker from 'react-native-image-crop-picker';
+import {Gap, InputData} from '../../components';
 import FIREBASE from '../../config/FIREBASE';
-import {colors, showError, storeData, useForm} from '../../utils';
-import {InputData, Button, Header, Gap, Input} from '../../components';
 import {getData} from '../../utils';
 
-export default class Appoitement extends Component {
+export default class Am extends Component {
   constructor(props) {
     super(props);
 
@@ -31,7 +27,13 @@ export default class Appoitement extends Component {
       klinik: '',
       dokter: '',
       tanggalKehadiran: '',
+      photoForDB: '',
+      photo: '',
     };
+  }
+
+  componentDidMount() {
+    this.getUserData();
   }
 
   onChangeText = (namaState, value) => {
@@ -40,16 +42,36 @@ export default class Appoitement extends Component {
     });
   };
 
-  componentDidMount() {
-    this.getUserData();
-  }
-
   getUserData = async () => {
     const userData = await getData('user');
     this.setState({
       ...this.state,
       namaAkun: userData?.fullName,
     });
+  };
+
+  uploadPhoto = () => {
+    ImageCropPicker.openCamera({
+      width: 400,
+      height: 300,
+      cropping: true,
+      includeBase64: true,
+    })
+      .then(image => {
+        const source = {uri: image.path};
+        console.log(source);
+        this.setState({
+          ...this.state,
+          photoForDB: `data:${image.mime};base64,${image.data}`,
+          photo: source,
+        });
+        Alert.alert(
+          'Berhasil Uploud Kartu Jaminan Asuransi/ Mitra. Silahkan melanjutkan proses pengisian form',
+        );
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   onSubmit = () => {
@@ -61,10 +83,11 @@ export default class Appoitement extends Component {
       this.state.penjamin &&
       this.state.klinik &&
       this.state.dokter &&
-      this.state.tanggalKehadiran
+      this.state.tanggalKehadiran &&
+      this.state.photoForDB
     ) {
-      const appoitmentReferensi = FIREBASE.database().ref('appoitment');
-      const appoitment = {
+      const amReferensi = FIREBASE.database().ref('assMit');
+      const am = {
         namaAkun: this.state.namaAkun,
         nama: this.state.nama,
         tanggalLahir: this.state.tanggalLahir,
@@ -73,10 +96,11 @@ export default class Appoitement extends Component {
         klinik: this.state.klinik,
         dokter: this.state.dokter,
         tanggalKehadiran: this.state.tanggalKehadiran,
+        photo: this.state.photoForDB,
       };
 
-      appoitmentReferensi
-        .push(appoitment)
+      amReferensi
+        .push(am)
         .then(data => {
           Alert.alert(
             'Sukses',
@@ -91,8 +115,8 @@ export default class Appoitement extends Component {
       Alert.alert('Error', 'Form wajib di isi semua');
     }
   };
-
   render() {
+    console.log(this.state.photo);
     return (
       <View>
         <View
@@ -124,7 +148,7 @@ export default class Appoitement extends Component {
                 alignText: 'center',
                 paddingRight: 40,
               }}>
-              Appoitment Pasien Umum
+              Appoitment Pasien Asuransi/ Mitra
             </Text>
           </View>
         </View>
@@ -168,12 +192,24 @@ export default class Appoitement extends Component {
               <Gap height={10} />
               <InputData
                 label="Penjamin"
-                placeholder="Umum"
+                placeholder="Asuransi/ Mitra (Isi Nama Asuransi/ Nama Perusahaan Mitra)"
                 isTextArea={true}
                 onChangeText={this.onChangeText}
                 value={this.state.penjamin}
                 namaState="penjamin"
               />
+              {this.state.photo ? (
+                <Image source={this.state.photo} style={styles.photo} />
+              ) : (
+                <View />
+              )}
+              <TouchableOpacity
+                style={styles.tombol}
+                onPress={() => this.uploadPhoto()}>
+                <Text style={styles.textTombol}>
+                  Upload Kartu Asuransi/Mitra
+                </Text>
+              </TouchableOpacity>
               <Gap height={10} />
               <InputData
                 label="Klinik Yang di tuju"
@@ -240,4 +276,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
+  photo: {
+    height: 200,
+    width: '100%',
+    borderRadius: 8,
+  },
 });
+

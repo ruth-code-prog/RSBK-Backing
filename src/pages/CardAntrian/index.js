@@ -143,7 +143,7 @@ const CardAntrian = () => {
               alignItems: 'flex-end',
               flex: 1,
             }}>
-            <TouchableOpacity onPress={() => navigation.navigate('Appoitment')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Opsi')}>
           <Image
             source={require('../../assets/Appo.png')}
             style={styles.chat}

@@ -63,9 +63,9 @@ const Home = ({navigation}) => {
         <RunningText />
         <Text style={styles.subtitle}>Layanan Online RS.Bayukarta</Text>
         <Headline />
-        <Text style={styles.subtitle}>Jadwal Dokter</Text>
+        <Text style={styles.subtitle}>Banner Vertical & Jadwal Dokter</Text>
         <Voucher data={banner} />
-        <Text style={styles.subtitle}>Akun & Antrian Klinik</Text>
+        <Text style={styles.subtitle}>About You (Akun & Antrian & Appoitment)</Text>
         <CardAntrian />
         <Map />
         <Developer />

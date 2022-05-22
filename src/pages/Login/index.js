@@ -20,7 +20,7 @@ const Login = ({navigation}) => {
           .then(resDB => {
             if (resDB.val()) {
               storeData('user', resDB.val());
-              navigation.replace('Sukses');
+              navigation.replace('MainApp');
             }
           });
       })

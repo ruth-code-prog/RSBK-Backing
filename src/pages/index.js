@@ -11,6 +11,8 @@ import PenunjangUser from './PenunjangUser';
 import UploadPhoto from './UploadPhoto';
 import Appoitment from './Appoitment';
 import Jadwal from './Jadwal';
+import Opsi from './Opsi';
+import Am from './Am';
 
 export {
   Home,
@@ -26,4 +28,6 @@ export {
   UploadPhoto,
   Appoitment,
   Jadwal,
+  Opsi,
+  Am,
 };
