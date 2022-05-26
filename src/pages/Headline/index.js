@@ -13,6 +13,17 @@ import {HeadlineItem} from '../../components';
 
 const Headline = () => {
   const [headline, setHeadline] = useState([]);
+  const [active, setActive] = useState(0);
+
+  const onChange = ({nativeEvent}) => {
+    const active = Math.floor(
+      nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
+    );
+
+    setActive(active);
+
+    console.log(active);
+  };
 
   useEffect(() => {
     FIREBASE.database()
@@ -34,7 +45,10 @@ const Headline = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        onMomentumScrollEnd={onChange}
+        horizontal
+        showsHorizontalScrollIndicator={false}>
         {headline.map(item => {
           return (
             <TouchableOpacity
@@ -49,6 +63,22 @@ const Headline = () => {
           );
         })}
       </ScrollView>
+      <View style={styles.dotView}>
+        {headline.map((k, i) => (
+          <View
+            key={i}
+            style={{
+              backgroundColor: i === active ? "blue" : "white", // My problem is here
+              height: 20,
+
+              width: 10,
+
+              margin: 8,
+              borderRadius: 6,
+            }}
+          />
+        ))}
+      </View>
     </View>
   );
 };
@@ -61,7 +91,7 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: '#F8C471',
     borderRadius: 10,
-    marginBottom: 20,
+    marginBottom: 18,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

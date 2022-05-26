@@ -214,14 +214,6 @@ const Sukses = () => {
         />
         <Gap height={10} />
         <View style={styles.image}>
-          <TouchableOpacity onPress={() => navigation.navigate('Appoitment')}>
-            <Image
-              source={require('../../assets/Appo.png')}
-              style={styles.chat}
-              resizeMode={'contain'}
-            />
-            <Text style={styles.keluar}>Appoitment Klinik</Text>
-          </TouchableOpacity>
           <Gap height={20} />
           <TouchableOpacity onPress={() => navigation.navigate('MainApp')}>
             <Image

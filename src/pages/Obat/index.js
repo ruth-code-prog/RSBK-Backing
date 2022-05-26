@@ -12,6 +12,7 @@ import {
   RefreshControl,
   Dimensions,
   Linking,
+  SafeAreaView,
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {Gap} from '../../components';
@@ -25,6 +26,7 @@ import FIREBASE from '../../config/FIREBASE';
 import {colors} from '../../utils';
 import {Header, Input, VideoPlayer} from '../../components';
 import {useDispatch} from 'react-redux';
+import { YellowBox } from 'react-native'
 
 const Obat = ({navigation}) => {
   const [data, setData] = useState([]);
@@ -34,6 +36,10 @@ const Obat = ({navigation}) => {
   const [indexActive, setIndexActive] = useState(0);
   const [refreshing, setRefreshing] = React.useState(false);
   const dispatch = useDispatch();
+
+  YellowBox.ignoreWarnings([
+    'VirtualizedLists should never be nested', // TODO: Remove when fixed
+  ])
 
   useEffect(() => {
     getData();
@@ -82,22 +88,10 @@ const Obat = ({navigation}) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
-  return (
-    <View style={styles.page}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={getData} />
-        }>
-        <TextKlinik />
-        <Text style={styles.title}>
-          Monitoring Antrian Dokter
-        </Text>
-        <Text style={styles.penjamin}>(Pasien UMUM, Mitra & Asuransi)</Text>
-        <Text style={styles.date}>
-          Waktu Anda Berharga {tanggal.format('LLLL, a')}
-        </Text>
-        <View style={styles.pages}>
+  const UpFlatList = () => {
+    return (
+      <View>
+           <SafeAreaView style={{flex: 1}}>
           <View style={{padding: 20, paddingTop: 8}}>
             <Input
               onChangeText={val => handleFilter(val)}
@@ -134,7 +128,27 @@ const Obat = ({navigation}) => {
               columnWrapperStyle={styles.columnWrapperStyle}
             />
           )}
-        </View>
+        </SafeAreaView>
+      </View>
+    )
+  }
+
+  return (
+    <View style={styles.page}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={getData} />
+        }>
+        <TextKlinik />
+        <Text style={styles.title}>
+          Monitoring Antrian Dokter
+        </Text>
+        <Text style={styles.penjamin}>(Pasien UMUM, Mitra & Asuransi)</Text>
+        <Text style={styles.date}>
+          Waktu Anda Berharga {tanggal.format('LLLL, a')}
+        </Text>
+       {<UpFlatList />}
         <Gap height={20} />
         <Text style={styles.title}>Supported By Alo Care Mobile App</Text>
         <Gap height={20} />
@@ -227,4 +241,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.secondary,
   },
+  pages: {
+    flex: 1,
+  }
 });

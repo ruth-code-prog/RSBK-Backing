@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -10,10 +10,12 @@ import {
   TouchableOpacity,
   View,
   RefreshControl,
+  Animated,
 } from 'react-native';
 import {VideoPlayer} from '../../components';
 import FIREBASE from '../../config/FIREBASE';
 import {useDispatch} from 'react-redux';
+import {ExpandingDot} from 'react-native-animated-pagination-dots';
 
 const PaidVideo = ({navigation}) => {
   const [data, setData] = useState([]);
@@ -27,6 +29,8 @@ const PaidVideo = ({navigation}) => {
 
   const [selectedLink, setSelectedLink] = useState(null);
   const dispatch = useDispatch();
+
+  const scrollX = React.useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     getData();
@@ -62,6 +66,15 @@ const PaidVideo = ({navigation}) => {
         <ActivityIndicator size={24} color="#0000FF" />
       ) : (
         <FlatList
+          horizontal
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {x: scrollX}}}],
+            {
+              useNativeDriver: false,
+            },
+          )}
+          decelerationRate={'normal'}
+          scrollEventThrottle={16}
           keyExtractor={(_, index) => index.toString()}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={getData} />
@@ -85,7 +98,9 @@ const PaidVideo = ({navigation}) => {
                   style={{width: 50, height: 50}}
                   resizeMode={'contain'}
                 />
-                <Text style={styles.title}>{item?.title}</Text>
+                <Text style={styles.title}>
+                  {item?.title.substring(0, 34)}...
+                </Text>
 
                 <Text
                   numberOfLines={6}
@@ -93,6 +108,24 @@ const PaidVideo = ({navigation}) => {
                   style={styles.body}>
                   {item?.body}
                 </Text>
+
+                <ExpandingDot
+                  data={data}
+                  expandingDotWidth={30}
+                  scrollX={scrollX}
+                  inActiveDotOpacity={0.6}
+                  dotStyle={{
+                    marginTop: 380,
+                    width: 10,
+                    height: 10,
+                    backgroundColor: '#347af0',
+                    borderRadius: 5,
+                    marginHorizontal: 5,
+                  }}
+                  containerStyle={{
+                    top: 30,
+                  }}
+                />
               </View>
             </TouchableOpacity>
           )}
@@ -133,7 +166,7 @@ const styles = StyleSheet.create({
     height: 400,
     marginRight: 10,
     flexDirection: 'row',
-    padding: 15,
+    padding: 8,
     backgroundColor: 'white',
     borderRadius: 20,
     marginBottom: 20,

@@ -49,7 +49,7 @@ const Voucher = ({data}) => {
       <View style={styles.rowCenter}>
         <TouchableOpacity onPress={() => navigation.navigate('Jadwal')}>
           <Image
-            source={require('../../assets/user.png')}
+            source={require('../../assets/btnDok.png')}
             style={styles.user}
             resizeMode={'contain'}
           />

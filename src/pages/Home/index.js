@@ -14,7 +14,6 @@ import Map from '../Map';
 import Voucher from '../Voucher';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
-import CardAntrian from '../CardAntrian';
 
 const Home = ({navigation}) => {
   const [pointPopup, setPointPopup] = useState(false);
@@ -46,6 +45,11 @@ const Home = ({navigation}) => {
   return (
     <View style={styles.page}>
       <View style={styles.headerContainer}>
+      <Image
+          source={require('../../assets/logo.png')}
+          style={{width: 50, height: 50}}
+          resizeMode="contain"
+        />
         <TouchableOpacity
           onPress={() => {
             pagesScrollRef?.current?.scrollTo({
@@ -65,8 +69,6 @@ const Home = ({navigation}) => {
         <Headline />
         <Text style={styles.subtitle}>Banner Vertical & Jadwal Dokter</Text>
         <Voucher data={banner} />
-        <Text style={styles.subtitle}>About You (Akun & Antrian & Appoitment)</Text>
-        <CardAntrian />
         <Map />
         <Developer />
         <Text style={styles.version}>Bayukarta Mobile App</Text>
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 60,
+    height: 80,
     backgroundColor: '#112340',
   },
   headerTitle: {
