@@ -74,15 +74,21 @@ const Informasi = ({navigation}) => {
             contentContainerStyle={{alignItems: 'flex-start'}}
             horizontal>
             {newAppointment.map((item, key) => (
-              <TouchableOpacity
-                activeOpacity={1}
-                style={styles.cardAppointment}>
+              <View key={key} style={styles.cardAppointment}>
                 <Image
                   source={{uri: item?.image}}
                   style={styles.imageAppointment}
                 />
-                <Text style={{textAlign: 'center'}}>{item?.title}</Text>
-              </TouchableOpacity>
+                <Gap width={16} />
+                <View style={{flex: 1}}>
+                  <Text style={{fontWeight: 'bold'}}>{item?.title}</Text>
+                  <Text style={styles.scheduleText}>{item?.senin}</Text>
+                  <Text style={styles.scheduleText}>{item?.selasa}</Text>
+                  <Text style={styles.scheduleText}>{item?.rabu}</Text>
+                  <Text style={styles.scheduleText}>{item?.kamis}</Text>
+                  <Text style={styles.scheduleText}>{item?.jumat}</Text>
+                </View>
+              </View>
             ))}
           </ScrollView>
           <Text style={styles.news}>
@@ -133,7 +139,11 @@ const styles = StyleSheet.create({
   cardAppointment: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 120,
-    marginRight: 8,
+    marginRight: 16,
+    flexDirection: 'row',
+    width: 300,
+  },
+  scheduleText: {
+    fontSize: 12,
   },
 });
