@@ -16,6 +16,7 @@ import {
   Jadwal,
   Opsi,
   Am,
+  New,
 } from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigator} from '../components';
@@ -43,6 +44,7 @@ const Router = () => {
         component={Splash}
         options={{headerShown: false}}
       />
+      <Stack.Screen name="New" component={New} options={{headerShown: false}} />
       <Stack.Screen
         name="MainApp"
         component={MainApp}
@@ -78,7 +80,7 @@ const Router = () => {
         component={ForgotPass}
         options={{headerShown: false}}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="PenunjangUser"
         component={PenunjangUser}
         options={{headerShown: false}}
@@ -88,21 +90,17 @@ const Router = () => {
         component={Appoitment}
         options={{headerShown: false}}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="Jadwal"
         component={Jadwal}
         options={{headerShown: false}}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Opsi"
         component={Opsi}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="Am"
-        component={Am}
-        options={{headerShown: false}}
-      />
+      <Stack.Screen name="Am" component={Am} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 };

@@ -19,6 +19,7 @@ const Input = ({
   right,
   onPressRight,
   style,
+  onEndEditing,
 }) => {
   const [border, setBorder] = useState(colors.border);
   const onFocusForm = () => {
@@ -36,6 +37,7 @@ const Input = ({
     <View>
       <Text style={[styles.label, colorLabel]}>{label}</Text>
       <TextInput
+        onChange={() => onEndEditing && onEndEditing()}
         onFocus={onFocusForm}
         onBlur={onBlurForm}
         style={[styles.input(border), colorLabel, style]}

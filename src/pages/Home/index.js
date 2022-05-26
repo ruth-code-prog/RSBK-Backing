@@ -1,29 +1,36 @@
-import React, {Component, useRef, useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faPlus, faUser} from '@fortawesome/free-solid-svg-icons';
-import FIREBASE from '../../config/FIREBASE';
-import Headline from '../Headline';
-import Carousel from '../Carousel';
-import RunningText from '../RunningText';
-import Notif from '../Notif';
-import Developer from '../Developer';
-import Splash from '../Splash';
-import {PopupPoint, Loading} from '../../components';
-import Map from '../Map';
-import Voucher from '../Voucher';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  Image,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
+import {FloatingIcon, PopupPoint} from '../../components';
+import FIREBASE from '../../config/FIREBASE';
+import Carousel from '../Carousel';
+import Developer from '../Developer';
+import Headline from '../Headline';
+import Map from '../Map';
+import Notif from '../Notif';
+import RunningText from '../RunningText';
+import Voucher from '../Voucher';
 
 const Home = ({navigation}) => {
   const [pointPopup, setPointPopup] = useState(false);
   const [banner, setBanner] = useState([]);
+  const [floatingIconUrl, setFloatingIcon] = useState('');
+  const [showFloating, setShowFloating] = useState(false);
   const dispatch = useDispatch();
   const pagesScrollRef = useRef(null);
 
   useEffect(() => {
     getImage();
     getBanner();
+    getFloatingIcon();
   }, []);
 
   const getImage = () => {
@@ -42,10 +49,19 @@ const Home = ({navigation}) => {
       });
   };
 
+  const getFloatingIcon = () => {
+    FIREBASE.database()
+      .ref('floating_icon_home')
+      .once('value', snapshot => {
+        setFloatingIcon(snapshot.val());
+        setShowFloating(true);
+      });
+  };
+
   return (
     <View style={styles.page}>
       <View style={styles.headerContainer}>
-      <Image
+        <Image
           source={require('../../assets/logo.png')}
           style={{width: 50, height: 50}}
           resizeMode="contain"
@@ -62,7 +78,11 @@ const Home = ({navigation}) => {
           <Text style={styles.headerTitle}>BAYUKARTA MOBILE APP</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView ref={pagesScrollRef} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        onScrollBeginDrag={() => setShowFloating(false)}
+        onScrollEndDrag={() => setShowFloating(true)}
+        ref={pagesScrollRef}
+        showsVerticalScrollIndicator={false}>
         <Carousel />
         <RunningText />
         <Text style={styles.subtitle}>Layanan Online RS.Bayukarta</Text>
@@ -75,6 +95,12 @@ const Home = ({navigation}) => {
         <Text style={styles.version2}>Versi: 1</Text>
         <Notif />
       </ScrollView>
+      <FloatingIcon
+        onClose={() => setShowFloating(false)}
+        onPress={() => Linking.openURL('https://wa.me/+628111199968')}
+        visible={showFloating}
+        imageUri={floatingIconUrl}
+      />
       <PopupPoint visible={pointPopup} onClose={() => setPointPopup(false)} />
     </View>
   );

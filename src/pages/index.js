@@ -13,6 +13,7 @@ import Appoitment from './Appoitment';
 import Jadwal from './Jadwal';
 import Opsi from './Opsi';
 import Am from './Am';
+import New from './New';
 
 export {
   Home,
@@ -30,4 +31,5 @@ export {
   Jadwal,
   Opsi,
   Am,
+  New,
 };

@@ -35,7 +35,7 @@ const Headline = () => {
         }
       })
       .catch(Error => {
-        showError;
+        // showError;
       });
   }, []);
 
