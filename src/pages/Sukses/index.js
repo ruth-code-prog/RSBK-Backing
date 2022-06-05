@@ -192,7 +192,7 @@ const Sukses = () => {
           paddingHorizontal: 20,
         }}
         showsVerticalScrollIndicator={false}>
-        <Gap height={20} />
+        <Gap height={40} />
         <HomeProfile profile={profile} />
         <Gap height={10} />
         {imageData?.map((item, index) => (

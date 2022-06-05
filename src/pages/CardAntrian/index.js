@@ -118,13 +118,13 @@ const CardAntrian = () => {
         <View style={{flexDirection: 'row'}}>
           <View style={{marginTop: 4}}>
             <Text style={{color: '#1908DD', fontStyle: 'italic', fontSize: 12}}>
-            <TouchableOpacity onPress={() => navigation.navigate('Sukses')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Image
                 source={require('../../assets/user.png')}
                 style={styles.user}
                 resizeMode={'contain'}
               />
-              <Text style={styles.member}>Akun Premium</Text>
+              <Text style={styles.member}>Akun</Text>
             </TouchableOpacity>
             </Text>
           </View>
@@ -135,7 +135,7 @@ const CardAntrian = () => {
               alignItems: 'flex-end',
               flex: 1,
             }}>
-            <TouchableOpacity onPress={() => navigation.navigate('Opsi')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Filter')}>
           <Image
             source={require('../../assets/Appo.png')}
             style={styles.chat}

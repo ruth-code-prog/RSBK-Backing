@@ -20,7 +20,7 @@ const Login = ({navigation}) => {
           .then(resDB => {
             if (resDB.val()) {
               storeData('user', resDB.val());
-              navigation.replace('MainApp');
+              navigation.replace('Sukses');
             }
           });
       })
@@ -32,7 +32,7 @@ const Login = ({navigation}) => {
   return (
     <View style={styles.page}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Gap height={20} />
+        <Gap height={40} />
         <Image
               source={require('../../assets/logo.png')}
               style={{

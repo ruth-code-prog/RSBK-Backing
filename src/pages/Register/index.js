@@ -52,7 +52,7 @@ const Register = ({navigation}) => {
     <View style={styles.page}>
       <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
-        <Gap height={20} />
+        <Gap height={40} />
         <Image
               source={require('../../assets/logo.png')}
               style={{

@@ -17,6 +17,7 @@ import {
   Opsi,
   Am,
   New,
+  Filter,
 } from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigator} from '../components';
@@ -98,6 +99,11 @@ const Router = () => {
       <Stack.Screen
         name="Opsi"
         component={Opsi}
+        options={{headerShown: false}}
+      />
+       <Stack.Screen
+        name="Filter"
+        component={Filter}
         options={{headerShown: false}}
       />
       <Stack.Screen name="Am" component={Am} options={{headerShown: false}} />

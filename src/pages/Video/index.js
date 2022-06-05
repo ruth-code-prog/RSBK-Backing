@@ -51,6 +51,7 @@ const Video = () => {
       <ScrollView
         contentContainerStyle={{alignItems: 'center', paddingVertical: 20}}
         showsVerticalScrollIndicator={false}>
+          <Gap height={40} />
         <Text style={{fontSize: 14, fontWeight: 'bold', textAlign: 'center', color: '#E5B654'}}>
           {`Sampurasun ${profile?.fullName}\n(ini adalah list video: TeleMedicine milik Anda)\n(untuk memperoleh fasilitas TeleMedicine)\n(hubungi Information Center)`}
         </Text>

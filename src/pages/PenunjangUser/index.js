@@ -215,6 +215,7 @@ const PenunjangUser = () => {
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}>
+          <Gap height={40} />
         <Text
           style={
             styles.headerText
