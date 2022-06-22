@@ -1,34 +1,34 @@
-import React, { Component } from "react";
-import { Dimensions, Text, StyleSheet, View } from "react-native";
+import {useNavigation} from '@react-navigation/native';
+import React, {Component} from 'react';
+import {Dimensions, Text, StyleSheet, View} from 'react-native';
 //import { Banner, Banner2 } from "../../../assets";
-import { SliderBox } from "react-native-image-slider-box";
+import {SliderBox} from 'react-native-image-slider-box';
 //import { responsiveHeight, responsiveWidth, colors } from "../../../utils";
 
-export default class BannerSlider extends Component {
-  constructor(props) {
-    super(props);
+const BannerSlider = ({data, links}) => {
+  const navigation = useNavigation();
 
-    this.state = {
-      images: props?.data,
-    };
-  }
+  return (
+    <View style={styles.container}>
+      <SliderBox
+        onCurrentImagePressed={index => {
+          if (links[index]) {
+            navigation.navigate('WebviewPage', {link: links[index]});
+          }
+        }}
+        images={data}
+        autoplay
+        circleLoop
+        //sliderBoxHeight={Height(172)}
+        ImageComponentStyle={styles.slider}
+        dotStyle={styles.dotStyle}
+        //imageLoadingColor={colors.primary}
+      />
+    </View>
+  );
+};
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <SliderBox
-          images={this.state.images}
-          autoplay
-          circleLoop
-          //sliderBoxHeight={Height(172)}
-          ImageComponentStyle={styles.slider}
-          dotStyle={styles.dotStyle}
-          //imageLoadingColor={colors.primary}
-        />
-      </View>
-    );
-  }
-}
+export default BannerSlider;
 
 const styles = StyleSheet.create({
   container: {

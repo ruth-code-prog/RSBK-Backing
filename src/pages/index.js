@@ -14,6 +14,7 @@ import Jadwal from './Jadwal';
 import Opsi from './Opsi';
 import Am from './Am';
 import New from './New';
+import WebviewPage from './WebviewPage';
 
 export {
   Home,
@@ -32,4 +33,5 @@ export {
   Opsi,
   Am,
   New,
+  WebviewPage,
 };
